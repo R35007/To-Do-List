@@ -4,6 +4,7 @@ import "@progress/kendo-theme-material/dist/all.css";
 import "./assets/css/common-styles.scss";
 import "./app.scss";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
+import TaskList from "./components/TaskList/TaskList";
 
 class App extends React.Component {
   public render() {
@@ -14,7 +15,9 @@ class App extends React.Component {
             To Do List
           </a>
         </nav>
-        <main>Welcome</main>
+        <main>
+          <TaskList />
+        </main>
       </div>
     );
   }

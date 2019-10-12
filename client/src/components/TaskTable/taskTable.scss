@@ -1,0 +1,48 @@
+.task-table-div {
+  .k-dialog-wrapper {
+    position: absolute;
+    .k-overlay {
+      position: absolute;
+    }
+  }
+
+  .k-grid td {
+    cursor: pointer;
+    padding: 5px 12px 5px 20px;
+    &:last-child {
+      text-overflow: clip;
+
+      > button {
+        opacity: 0.2;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .add {
+    background: #00c4ff;
+    color: white;
+    position: absolute;
+    right: 13px;
+    bottom: 14px;
+    outline: none !important;
+    box-shadow: none;
+
+    &:active {
+      box-shadow: 0 0 5px -3px black;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .status {
+    font-size: 13px;
+    height: 29px;
+    width: 90px;
+    font-size: 12px;
+  }
+}
