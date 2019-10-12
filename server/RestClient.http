@@ -1,0 +1,21 @@
+@baseUrl= http://localhost:3001/api
+
+### Get Schema for the given Task
+// {{baseUrl}}/schema/:task
+GET {{baseUrl}}/schema/MULTIPLECHOICE
+
+### Get any files for the given path
+// {{baseUrl}}/*
+GET {{baseUrl}}/assets/content/unit_index.json
+
+### Get List of Us and UK Vars for the given strand & concept && activity && unit
+// {{baseUrl}}/passages/:strand/:conceptKey/:activityKey/:unitKey
+GET {{baseUrl}}/passages/rc/rc07/a01/u01
+
+###
+POST {{baseUrl}}/updateUnit HTTP/1.1
+Content-Type: application/json
+
+{
+    "unit" : "rc07_a01_u01"
+}
