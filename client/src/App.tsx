@@ -12,7 +12,7 @@ class App extends React.Component {
       <div className="container-fluid pane-content p-0">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="#">
-            To Do List
+          To Do List
           </a>
         </nav>
         <main>

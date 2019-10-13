@@ -5,10 +5,11 @@ import { ITask } from "src/models/task.model";
 import "./taskEditForm.scss";
 import StatusSwitch from "./StatusSwitch";
 import { Status } from "../../../enum/status.enum";
-import { parseDateTime } from "../../../assets/unitls/Utils";
+import { convertDateToTime } from "src/assets/utils/utils";
 
 interface IProps {
   dataItem: ITask;
+  selectedDate: Date;
   save(): void;
   cancel(): void;
 }
@@ -50,19 +51,25 @@ export default class TaskEditForm extends React.Component<IProps, IState> {
   };
 
   onStatusChange = (status: string) => {
-    const newDate = parseDateTime(new Date());
+    const { selectedDate } = this.props;
+
+    const selectedDateStr = selectedDate.toUTCString();
     const editedTask = this.state.task;
-    editedTask.status = status;
-    if (status == Status.DONE) {
-      editedTask.doneOn = newDate;
-    } else if (status == Status.OPEN) {
-      editedTask.openOn = newDate;
-    } else {
-      editedTask.inProgressOn = newDate;
+    const editedTaskInProgressTime = convertDateToTime(editedTask.inProgressOn);
+    const selectedDateTime = convertDateToTime(selectedDateStr);
+    if (editedTaskInProgressTime <= selectedDateTime) {
+      editedTask.status = status;
+      if (status == Status.DONE) {
+        editedTask.doneOn = selectedDateStr;
+      } else if (status == Status.OPEN) {
+        editedTask.openOn = selectedDateStr;
+      } else {
+        editedTask.inProgressOn = selectedDateStr;
+      }
+      this.setState({
+        task: editedTask
+      });
     }
-    this.setState({
-      task: editedTask
-    });
   };
 
   dialogTitle() {

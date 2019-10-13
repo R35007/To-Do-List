@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { DatePicker, DatePickerChangeEvent } from "@progress/kendo-react-dateinputs";
-import { ITasks, ITask } from "../../models/task.model";
+import { ITask } from "../../models/task.model";
 import TaskTable from "../TaskTable/TaskTable";
 import "./taskList.scss";
-import { parseDate } from "../../assets/unitls/Utils";
 
 interface IState {
   selectedDate: Date;
-  monthTasks: ITasks[];
   tasks: ITask[];
 }
 
@@ -17,7 +15,6 @@ export default class TaskList extends Component<any, IState> {
 
     this.state = {
       selectedDate: new Date(),
-      monthTasks: [],
       tasks: []
     };
   }
@@ -27,18 +24,15 @@ export default class TaskList extends Component<any, IState> {
   }
 
   getTasks = (selectedDate: Date) => {
-    const dateStr = parseDate(selectedDate);
-    fetch("tasks/" + dateStr)
+    const time = selectedDate.getTime();
+    fetch(`tasks/${time}`)
       .then(res => res.json())
-      .then((monthTasks: ITasks[]) => {
-        const selectedDateTask = monthTasks.find(task => task.date == dateStr);
-        const tasks = selectedDateTask ? selectedDateTask.tasks : [];
-        this.setState(prevState => ({
-          ...prevState,
+      .then((tasks: ITask[]) => {
+        this.setState({
+          ...this.state,
           selectedDate,
-          monthTasks,
           tasks
-        }));
+        });
       });
   };
 

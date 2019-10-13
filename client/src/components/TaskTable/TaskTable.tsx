@@ -5,8 +5,8 @@ import { ITask } from "src/models/task.model.js";
 import axios from "axios";
 import "./taskTable.scss";
 import { Status } from "../../enum/status.enum";
-import { parseDate, parseDateTime } from "src/assets/unitls/Utils";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
+import { getTimes, convertDateToTime } from "src/assets/utils/utils";
 
 interface IProps {
   tasks: ITask[];
@@ -43,9 +43,9 @@ class TaskTable extends React.Component<IProps, IState> {
 
   remove = (dataItem: ITask) => {
     const { selectedDate, getTasks } = this.props;
-    const dateStr = parseDate(selectedDate);
+    dataItem.deletedOn = selectedDate.toUTCString();
     axios
-      .delete(`tasks/${dateStr}`, { data: dataItem })
+      .delete("tasks", { data: dataItem })
       .then(() => getTasks(selectedDate))
       .catch((err: any) => console.log(err));
     this.cancel();
@@ -54,16 +54,15 @@ class TaskTable extends React.Component<IProps, IState> {
   save = () => {
     const dataItem = this.state.taskInEdit!;
     const { selectedDate, getTasks } = this.props;
-    const dateStr = parseDate(selectedDate);
 
     if (dataItem.id) {
       axios
-        .put(`tasks/${dateStr}`, dataItem)
+        .put("tasks", dataItem)
         .then(_res => getTasks(selectedDate))
         .catch(err => console.log(err));
     } else {
       axios
-        .post(`tasks/${dateStr}`, dataItem)
+        .post("tasks", dataItem)
         .then(_res => getTasks(selectedDate))
         .catch(err => console.log(err));
     }
@@ -75,7 +74,8 @@ class TaskTable extends React.Component<IProps, IState> {
   };
 
   insert = () => {
-    this.setState({ taskInEdit: { status: "Open", openOn: parseDateTime(new Date()) } as ITask });
+    const { selectedDate } = this.props;
+    this.setState({ taskInEdit: { status: "Open", openOn: selectedDate.toUTCString() } as ITask });
   };
 
   renderStatus = ({ dataItem }: GridCellProps) => {
@@ -89,13 +89,6 @@ class TaskTable extends React.Component<IProps, IState> {
     return (
       <td>
         <span className={className}>{dataItem.status}</span>
-      </td>
-    );
-  };
-
-  romoveButton = ({ dataItem }: GridCellProps) => {
-    return (
-      <td>
         <button className="remove btn" onClick={() => this.setState({ deletableTask: dataItem })}>
           <i className="fas fa-calendar-times" />
         </button>
@@ -103,20 +96,51 @@ class TaskTable extends React.Component<IProps, IState> {
     );
   };
 
+  renderCurrentStatus = ({ dataItem }: GridCellProps) => {
+    const { inProgressOnTime, doneOnTime } = getTimes(dataItem);
+    const selectedTime = convertDateToTime(this.props.selectedDate);
+
+    const icon =
+      doneOnTime === selectedTime && doneOnTime != 0 ? (
+        <span className={"today-status text-success"}>
+          <i className="fas fa-check-square" />
+        </span>
+      ) : inProgressOnTime <= selectedTime && inProgressOnTime != 0 ? (
+        <span className={"today-status text-warning"}>
+          <i className="fas fa-pen-square" />
+        </span>
+      ) : (
+        <span className={"today-status text-info"}>
+          <i className="fas fa-plus-square" />
+        </span>
+      );
+    return (
+      <td>
+        {icon}
+        {dataItem.id}
+      </td>
+    );
+  };
+
   render() {
     const { taskInEdit, deletableTask } = this.state;
+    const { selectedDate } = this.props;
     return (
       <div className="col h-100 p-0" style={{ position: "static" }}>
         <div className="task-table-div h-100">
           <Grid data={this.state.tasks} onRowClick={this.edit} style={{ height: "100%" }}>
-            <GridColumn field="id" title="Id" width="100px" />
+            <GridColumn title="Id" width="100px" cell={this.renderCurrentStatus} />
             <GridColumn field="name" title="Task Name" width="150px" />
             <GridColumn field="description" title="Description" />
-            <GridColumn field="status" title="Status" width="130px" cell={this.renderStatus} />
-            <GridColumn cell={this.romoveButton} width="70px" />
+            <GridColumn field="status" title="Status" width="140px" cell={this.renderStatus} />
           </Grid>
           {taskInEdit && (
-            <TaskEditForm dataItem={taskInEdit} save={this.save} cancel={this.cancel} />
+            <TaskEditForm
+              dataItem={taskInEdit}
+              selectedDate={selectedDate}
+              save={this.save}
+              cancel={this.cancel}
+            />
           )}
           {deletableTask && (
             <Dialog title={"Please confirm"} onClose={this.cancel}>

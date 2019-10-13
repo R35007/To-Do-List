@@ -25,9 +25,8 @@
   z-index: 10003;
 }
 
-.status {
-  width: 100px;
-  height: 33px;
+.k-state-invalid {
+  border-color: rgba(0, 0, 0, 0.42) !important;
 }
 
 .task-form {

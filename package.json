@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client-install": "cd client && npm install",
-    "server-install": "cd server && npm install",
-    "dev-i": "npm install && npm run client-install && npm run server-install",
-    "start-web": "cd .. && cd web && npm start",
-    "start-client": "cd client && npm start",
-    "start-server": "cd server && npm start",
-    "start": "concurrently \"npm run start-client \" \" npm run start-server \""
+    "client-i": "cd client && npm i",
+    "server-i": "cd server && npm i",
+    "dev-i": "npm i && npm run client-i && npm run server-i",
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "start": "concurrently \"npm run client \" \" npm run server \""
   },
   "repository": {
     "type": "git",
