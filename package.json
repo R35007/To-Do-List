@@ -9,7 +9,7 @@
     "dev-i": "npm i && npm run client-i && npm run server-i",
     "client": "cd client && npm start",
     "server": "cd server && npm start",
-    "start": "concurrently \"npm run client \" \" npm run server \""
+    "start": "concurrently \" npm run server \" \" npm run client \""
   },
   "repository": {
     "type": "git",
