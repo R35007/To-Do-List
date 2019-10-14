@@ -55,10 +55,10 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
     const { selectedDate } = this.props;
     const selectedDateTime = convertDateToTime(selectedDate);
 
-    const { openOnTime, inProgressOnTime, doneOnTime } = getTimes(editedTask);
+    const { openOnTime, inProgressOnTime } = getTimes(editedTask);
     const todayTime = convertDateToTime(new Date());
 
-    return selectedDateTime === todayTime && !(openOnTime > todayTime);
+    return !(selectedDateTime < openOnTime) && !(selectedDateTime < inProgressOnTime)
   };
 
   onStatusChange = (status: string) => {

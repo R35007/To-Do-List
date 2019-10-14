@@ -13,7 +13,7 @@ function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
       return (
         <button
           type="button"
-          onClick={() => onChange(Status.DONE)}
+          onClick={() => onChange(Status.OPEN)}
           className="status btn bg-success text-white ml-3 rounded"
           disabled={true}
         >
