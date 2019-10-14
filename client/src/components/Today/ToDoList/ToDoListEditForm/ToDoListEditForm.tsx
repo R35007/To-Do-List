@@ -5,7 +5,7 @@ import { ITask } from "src/models/task.model";
 import "./ToDoListEditForm.scss";
 import StatusSwitch from "./StatusSwitch";
 import { Status } from "../../../../enum/status.enum";
-import { convertDateToTime } from "src/assets/utils/utils";
+import { convertDateToTime, getTimes } from "src/assets/utils/utils";
 
 interface IProps {
   dataItem: ITask;
@@ -50,30 +50,37 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
     });
   };
 
+  isStatusEditable = () => {
+    const editedTask = this.state.task;
+    const { selectedDate } = this.props;
+    const selectedDateTime = convertDateToTime(selectedDate);
+
+    const { openOnTime, inProgressOnTime, doneOnTime } = getTimes(editedTask);
+    const todayTime = convertDateToTime(new Date());
+
+    return selectedDateTime === todayTime && !(openOnTime > todayTime);
+  };
+
   onStatusChange = (status: string) => {
     const { selectedDate } = this.props;
+    const editedTask = this.state.task;
 
     const selectedDateStr = selectedDate.toUTCString();
-    const editedTask = this.state.task;
-    const editedTaskInProgressTime = convertDateToTime(editedTask.inProgressOn);
-    const editedTaskInOpenTime = convertDateToTime(editedTask.openOn);
     const selectedDateTime = convertDateToTime(selectedDateStr);
-    if (editedTaskInProgressTime <= selectedDateTime && editedTaskInOpenTime <= selectedDateTime) {
-      editedTask.status = status;
-      if (status == Status.DONE) {
-        editedTask.doneOn = selectedDateStr;
-        editedTask.doneOnTime = selectedDateTime;
-      } else if (status == Status.OPEN) {
-        editedTask.openOn = selectedDateStr;
-        editedTask.openOnTime = selectedDateTime;
-      } else {
-        editedTask.inProgressOn = selectedDateStr;
-        editedTask.inProgressOnTime = selectedDateTime;
-      }
-      this.setState({
-        task: editedTask
-      });
+    editedTask.status = status;
+    if (status == Status.DONE) {
+      editedTask.doneOn = selectedDateStr;
+      editedTask.doneOnTime = selectedDateTime;
+    } else if (status == Status.OPEN) {
+      editedTask.openOn = selectedDateStr;
+      editedTask.openOnTime = selectedDateTime;
+    } else {
+      editedTask.inProgressOn = selectedDateStr;
+      editedTask.inProgressOnTime = selectedDateTime;
     }
+    this.setState({
+      task: editedTask
+    });
   };
 
   dialogTitle() {
@@ -113,7 +120,11 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
           <div>
             <label style={{ width: "auto" }}>
               Status :
-              <StatusSwitch onChange={this.onStatusChange} status={task.status || Status.OPEN} />
+              <StatusSwitch
+                onChange={this.onStatusChange}
+                status={task.status || Status.OPEN}
+                isStatusEditable={this.isStatusEditable}
+              />
               <br />
             </label>
           </div>
