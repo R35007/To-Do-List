@@ -2,9 +2,9 @@ import React from "react";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import { Input } from "@progress/kendo-react-inputs";
 import { ITask } from "src/models/task.model";
-import "./taskEditForm.scss";
+import "./ToDoListEditForm.scss";
 import StatusSwitch from "./StatusSwitch";
-import { Status } from "../../../enum/status.enum";
+import { Status } from "../../../../enum/status.enum";
 import { convertDateToTime } from "src/assets/utils/utils";
 
 interface IProps {
@@ -18,7 +18,7 @@ interface IState {
   task: ITask;
 }
 
-export default class TaskEditForm extends React.Component<IProps, IState> {
+export default class ToDoListEditForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -56,15 +56,19 @@ export default class TaskEditForm extends React.Component<IProps, IState> {
     const selectedDateStr = selectedDate.toUTCString();
     const editedTask = this.state.task;
     const editedTaskInProgressTime = convertDateToTime(editedTask.inProgressOn);
+    const editedTaskInOpenTime = convertDateToTime(editedTask.openOn);
     const selectedDateTime = convertDateToTime(selectedDateStr);
-    if (editedTaskInProgressTime <= selectedDateTime) {
+    if (editedTaskInProgressTime <= selectedDateTime && editedTaskInOpenTime <= selectedDateTime) {
       editedTask.status = status;
       if (status == Status.DONE) {
         editedTask.doneOn = selectedDateStr;
+        editedTask.doneOnTime = selectedDateTime;
       } else if (status == Status.OPEN) {
         editedTask.openOn = selectedDateStr;
+        editedTask.openOnTime = selectedDateTime;
       } else {
         editedTask.inProgressOn = selectedDateStr;
+        editedTask.inProgressOnTime = selectedDateTime;
       }
       this.setState({
         task: editedTask

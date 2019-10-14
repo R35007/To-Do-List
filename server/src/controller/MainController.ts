@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 
 import Path from "path";
 import fs from "fs";
-import { range, random } from "lodash";
 import { ITask } from "../model/task.model";
 import { getTimes, convertDateToTime, convertTimeToTime } from "../utils/utils";
 const TASKPATH = Path.resolve(__dirname, `../../../assets/tasks.json`);
@@ -12,6 +11,13 @@ const TASKPATH = Path.resolve(__dirname, `../../../assets/tasks.json`);
 export class MainController {
   months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+  @Get("tasks/all")
+  getAllTasks(req: Request, res: Response) {
+    const tasks = JSON.parse(fs.readFileSync(TASKPATH, "utf-8"));
+    const data = tasks.filter((task: ITask) => !task.deletedOnTime);
+    res.send(data);
+  }
+
   @Get("tasks/:selectedTime")
   getTasks(req: Request, res: Response) {
     const selectedTime = convertTimeToTime(req.params.selectedTime);
@@ -19,7 +25,7 @@ export class MainController {
     const tasks = JSON.parse(fs.readFileSync(TASKPATH, "utf-8"));
 
     const data = tasks.filter((task: ITask) => {
-      const { openOnTime, inProgressOnTime, doneOnTime, deleteOnTime } = getTimes(task);
+      const { openOnTime, doneOnTime, deleteOnTime } = getTimes(task);
       return (
         openOnTime <= selectedTime &&
         deleteOnTime == 0 &&
@@ -32,8 +38,8 @@ export class MainController {
   @Post("tasks")
   insertTask(req: Request, res: Response) {
     const newData = req.body;
-    newData.id = random(1, 1000000);
     const tasks = JSON.parse(fs.readFileSync(TASKPATH, "utf-8"));
+    newData.id = tasks.length + 1;
     tasks.push(newData);
     fs.writeFileSync(TASKPATH, JSON.stringify(tasks, null, 4), "utf8");
     res.send(newData);

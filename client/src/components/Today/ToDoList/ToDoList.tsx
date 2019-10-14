@@ -1,33 +1,38 @@
 import React from "react";
 import { Grid, GridColumn, GridCellProps, GridRowClickEvent } from "@progress/kendo-react-grid";
-import TaskEditForm from "./TaskEditForm/TaskEditForm";
+import ToDoListEditForm from "./ToDoListEditForm/ToDoListEditForm";
 import { ITask } from "src/models/task.model.js";
 import axios from "axios";
-import "./taskTable.scss";
-import { Status } from "../../enum/status.enum";
+import "./ToDoList.scss";
+import { Status } from "../../../enum/status.enum";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import { getTimes, convertDateToTime } from "src/assets/utils/utils";
+import { orderBy, SortDescriptor } from "@progress/kendo-data-query";
 
 interface IProps {
   tasks: ITask[];
   selectedDate: Date;
+  isViewAll: boolean;
   getTasks(selectedDate: Date): void;
+  getAllTasks(): void;
 }
 
 interface IState {
   tasks: ITask[];
   taskInEdit: ITask | undefined;
   deletableTask: ITask | undefined;
+  sort: SortDescriptor[];
 }
 
-class TaskTable extends React.Component<IProps, IState> {
+class ToDoList extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     this.state = {
       tasks: this.props.tasks,
       taskInEdit: undefined,
-      deletableTask: undefined
+      deletableTask: undefined,
+      sort: [{ field: "status", dir: "desc" }]
     };
   }
 
@@ -42,28 +47,29 @@ class TaskTable extends React.Component<IProps, IState> {
   };
 
   remove = (dataItem: ITask) => {
-    const { selectedDate, getTasks } = this.props;
+    const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
     dataItem.deletedOn = selectedDate.toUTCString();
+    dataItem.deletedOnTime = selectedDate.getTime();
     axios
       .delete("tasks", { data: dataItem })
-      .then(() => getTasks(selectedDate))
+      .then(() => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
       .catch((err: any) => console.log(err));
     this.cancel();
   };
 
   save = () => {
     const dataItem = this.state.taskInEdit!;
-    const { selectedDate, getTasks } = this.props;
+    const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
 
     if (dataItem.id) {
       axios
         .put("tasks", dataItem)
-        .then(_res => getTasks(selectedDate))
+        .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
         .catch(err => console.log(err));
     } else {
       axios
         .post("tasks", dataItem)
-        .then(_res => getTasks(selectedDate))
+        .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
         .catch(err => console.log(err));
     }
     this.cancel();
@@ -74,9 +80,17 @@ class TaskTable extends React.Component<IProps, IState> {
   };
 
   insert = () => {
-    const { selectedDate } = this.props;
-    this.setState({ taskInEdit: { status: "Open", openOn: selectedDate.toUTCString() } as ITask });
+    this.setState({ taskInEdit: this.newTask() as ITask });
   };
+
+  newTask() {
+    const { selectedDate } = this.props;
+    return {
+      status: "Open",
+      openOn: selectedDate.toUTCString(),
+      openOnTime: selectedDate.getTime()
+    };
+  }
 
   renderStatus = ({ dataItem }: GridCellProps) => {
     const className =
@@ -87,7 +101,7 @@ class TaskTable extends React.Component<IProps, IState> {
         ? "bg-warning"
         : "bg-success");
     return (
-      <td>
+      <td className="position-relative">
         <span className={className}>{dataItem.status}</span>
         <button className="remove btn" onClick={() => this.setState({ deletableTask: dataItem })}>
           <i className="fas fa-calendar-times" />
@@ -97,45 +111,66 @@ class TaskTable extends React.Component<IProps, IState> {
   };
 
   renderCurrentStatus = ({ dataItem }: GridCellProps) => {
-    const { inProgressOnTime, doneOnTime } = getTimes(dataItem);
+    const { inProgressOnTime, doneOnTime, openOnTime } = getTimes(dataItem);
     const selectedTime = convertDateToTime(this.props.selectedDate);
 
     const icon =
-      doneOnTime === selectedTime && doneOnTime != 0 ? (
-        <span className={"today-status text-success"}>
+      (doneOnTime < selectedTime && doneOnTime != 0) || openOnTime > selectedTime ? (
+        <></>
+      ) : doneOnTime === selectedTime && doneOnTime != 0 ? (
+        <span className={"today-status text-success"} title={Status.DONE}>
           <i className="fas fa-check-square" />
         </span>
       ) : inProgressOnTime <= selectedTime && inProgressOnTime != 0 ? (
-        <span className={"today-status text-warning"}>
+        <span className={"today-status text-warning"} title={Status.INPROGRESS}>
           <i className="fas fa-pen-square" />
         </span>
       ) : (
-        <span className={"today-status text-info"}>
+        <span className={"today-status text-info"} title={Status.OPEN}>
           <i className="fas fa-plus-square" />
         </span>
       );
     return (
-      <td>
+      <td className="position-relative pl-4">
         {icon}
         {dataItem.id}
       </td>
     );
   };
 
+  renderShortDate = ({ dataItem, field = "" }: GridCellProps) => {
+    return <td>{dataItem[field] && new Date(dataItem[field]).toLocaleDateString()}</td>;
+  };
+
   render() {
-    const { taskInEdit, deletableTask } = this.state;
+    const { taskInEdit, deletableTask, tasks, sort } = this.state;
     const { selectedDate } = this.props;
     return (
       <div className="col h-100 p-0" style={{ position: "static" }}>
-        <div className="task-table-div h-100">
-          <Grid data={this.state.tasks} onRowClick={this.edit} style={{ height: "100%" }}>
-            <GridColumn title="Id" width="100px" cell={this.renderCurrentStatus} />
-            <GridColumn field="name" title="Task Name" width="150px" />
+        <div className="todo-table-div h-100">
+          <Grid
+            data={orderBy(tasks, sort)}
+            sortable={true}
+            sort={sort}
+            onSortChange={e => this.setState({ sort: e.sort })}
+            onRowClick={this.edit}
+            style={{ height: "100%" }}
+          >
+            <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
+            <GridColumn field="name" title="Name" width="100px" />
             <GridColumn field="description" title="Description" />
-            <GridColumn field="status" title="Status" width="140px" cell={this.renderStatus} />
+            <GridColumn field="openOnTime" title="Open" width="110px" cell={this.renderShortDate} />
+            <GridColumn
+              field="inProgressOnTime"
+              title="InProgress"
+              width="110px"
+              cell={this.renderShortDate}
+            />
+            <GridColumn field="doneOnTime" title="Done" width="110px" cell={this.renderShortDate} />
+            <GridColumn field="status" title="Status" width="130px" cell={this.renderStatus} />
           </Grid>
           {taskInEdit && (
-            <TaskEditForm
+            <ToDoListEditForm
               dataItem={taskInEdit}
               selectedDate={selectedDate}
               save={this.save}
@@ -166,4 +201,4 @@ class TaskTable extends React.Component<IProps, IState> {
   }
 }
 
-export default TaskTable;
+export default ToDoList;

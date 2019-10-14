@@ -12,3 +12,14 @@ button {
     box-shadow: none !important;
   }
 }
+
+.to-do-card {
+  box-shadow: 0px 0px 7px -2px black;
+  background: white;
+  position: relative;
+  margin: 10px;
+
+  > header {
+    background: #00c4ff;
+  }
+}

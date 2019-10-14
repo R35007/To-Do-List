@@ -1,0 +1,15 @@
+.status-chart {
+  position: relative;
+  height: calc(100% - 160px);
+  header {
+    font: 16.002px Roboto, "Helvetica Neue", sans-serif;
+    position: absolute;
+    top: 12px;
+    z-index: 10;
+    text-align: center;
+    display: block;
+    right: 0;
+    left: 0;
+    padding: 10px;
+  }
+}

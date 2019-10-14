@@ -1,4 +1,4 @@
-.task-table-div {
+.todo-table-div {
   .k-dialog-wrapper {
     position: absolute;
     .k-overlay {
@@ -8,16 +8,19 @@
 
   .k-grid td {
     cursor: pointer;
-    padding: 5px 12px 5px 20px;
+    padding: 7px 12px;
+    font-size: 13px;
     &:last-child {
-      text-overflow: clip;
-
       > button {
         opacity: 0.2;
         &:hover {
           opacity: 0.8;
         }
       }
+    }
+
+    &:nth-child(3) {
+      line-height: 19px;
     }
   }
 
@@ -41,12 +44,12 @@
 
   .today-status {
     font-size: 17px;
-    margin-left: -16px;
-    margin-right: 10px;
+    position: absolute;
+    left: 3px;
+    margin-top: -3px;
   }
 
   .status {
-    font-size: 13px;
     width: 80px;
     font-size: 10px;
     padding: 4px 0;
@@ -54,7 +57,7 @@
 
   .remove {
     padding: 0;
-    margin-right: -10px;
-    margin-left: 10px;
+    position: absolute;
+    right: 10px;
   }
 }
