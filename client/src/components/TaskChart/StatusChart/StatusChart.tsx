@@ -37,26 +37,30 @@ class StatusChart extends PureComponent<IProps, IState> {
   }
   componentWillReceiveProps(props: IProps) {
     const { tasks } = props;
-    const openCount = tasks.filter((task: ITask) => task.status === Status.OPEN).length;
-    const inProgressCount = tasks.filter((task: ITask) => task.status === Status.INPROGRESS).length;
-    const doneCount = tasks.filter((task: ITask) => task.status === Status.DONE).length;
-    const data = [
-      {
-        name: `Open \n ${openCount}`,
-        data: openCount
-      },
-      {
-        name: `In Progress \n ${inProgressCount}`,
-        data: inProgressCount,
-        color: "rgb(255, 87, 34)"
-      },
-      {
-        name: `Done \n ${doneCount}`,
-        data: doneCount
-      }
-    ];
-
-    this.setState({ data });
+    if (tasks.length > 0) {
+      const openCount = tasks.filter((task: ITask) => task.status === Status.OPEN).length;
+      const inProgressCount = tasks.filter((task: ITask) => task.status === Status.INPROGRESS)
+        .length;
+      const doneCount = tasks.filter((task: ITask) => task.status === Status.DONE).length;
+      const data = [
+        {
+          name: `Open \n ${openCount}`,
+          data: openCount
+        },
+        {
+          name: `In Progress \n ${inProgressCount}`,
+          data: inProgressCount,
+          color: "rgb(255, 87, 34)"
+        },
+        {
+          name: `Done \n ${doneCount}`,
+          data: doneCount
+        }
+      ];
+      this.setState({ data });
+    } else {
+      this.setState({ data: [] });
+    }
   }
 
   render() {
@@ -64,6 +68,7 @@ class StatusChart extends PureComponent<IProps, IState> {
     return (
       <div className="status-chart mt-4">
         <header>Status</header>
+        {data.length == 0 && <div className="no-data">No Data</div>}
         <Chart style={{ height: "100%" }}>
           <ChartTooltip />
           <ChartArea background="#eee" margin={0} />
