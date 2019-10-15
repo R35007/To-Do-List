@@ -66,7 +66,7 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
     const { selectedDate, task } = this.props;
     const editedTask = { ...this.state.task };
 
-    const selectedDateStr = selectedDate.toUTCString();
+    const selectedDateStr = selectedDate.toLocaleString();
     const selectedDateTime = convertDateToTime(selectedDateStr);
     editedTask.status = status;
     if (status == Status.DONE) {

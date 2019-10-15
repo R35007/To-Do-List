@@ -41,7 +41,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
 
   remove = (dataItem: ITask) => {
     const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
-    dataItem.deletedOn = selectedDate.toISOString();
+    dataItem.deletedOn = selectedDate.toLocaleString();
     dataItem.deletedOnTime = selectedDate.getTime();
     axios
       .delete("tasks", { data: dataItem })
@@ -79,7 +79,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     const { selectedDate } = this.props;
     return {
       status: "Open",
-      openOn: selectedDate.toISOString(),
+      openOn: selectedDate.toLocaleString(),
       openOnTime: selectedDate.getTime()
     };
   }
