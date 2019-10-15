@@ -72,6 +72,86 @@
         "inProgressOnTime": 1571164200000,
         "doneOn": "Wed, 16 Oct 2019 13:58:04 GMT",
         "doneOnTime": 1571164200000,
-        "priority": 1000
+        "priority": 1000,
+        "deletedOn": "15/10/2019, 22:37:51",
+        "deletedOnTime": 1571159271526
+    },
+    {
+        "status": "Done",
+        "openOn": "15/10/2019, 22:25:57",
+        "openOnTime": 1571158557938,
+        "name": "Task 7",
+        "description": "My Description",
+        "priority": 100,
+        "inProgressOn": "15/10/2019, 22:25:57",
+        "inProgressOnTime": null,
+        "doneOn": "15/10/2019, 22:25:57",
+        "doneOnTime": null,
+        "id": 8,
+        "deletedOn": "15/10/2019, 22:27:03",
+        "deletedOnTime": 1571158623934
+    },
+    {
+        "status": "Done",
+        "openOn": "15/10/2019, 22:27:03",
+        "openOnTime": 1571158623934,
+        "name": "Task 6",
+        "description": "My Description",
+        "priority": 10,
+        "inProgressOn": "15/10/2019, 22:27:03",
+        "inProgressOnTime": null,
+        "doneOn": "15/10/2019, 22:27:03",
+        "doneOnTime": null,
+        "id": 9,
+        "deletedOn": "15/10/2019, 22:27:03",
+        "deletedOnTime": 1571158623934
+    },
+    {
+        "status": "Done",
+        "openOn": "15/10/2019, 22:30:36",
+        "openOnTime": 1571158836802,
+        "name": "Task 7",
+        "description": "My Description",
+        "priority": 10,
+        "inProgressOn": "15/10/2019, 22:30:36",
+        "inProgressOnTime": 1571077800000,
+        "doneOn": "15/10/2019, 22:30:36",
+        "doneOnTime": 1571077800000,
+        "id": 10
+    },
+    {
+        "status": "Done",
+        "openOn": "15/10/2019, 22:39:48",
+        "openOnTime": 1571159388875,
+        "name": "Task 5",
+        "description": "New Task",
+        "inProgressOn": "15/10/2019, 22:39:48",
+        "inProgressOnTime": 1571077800000,
+        "doneOn": "15/10/2019, 22:39:48",
+        "doneOnTime": 1571077800000,
+        "priority": 1,
+        "id": 11
+    },
+    {
+        "status": "Open",
+        "openOn": "16/10/2019, 23:24:44",
+        "openOnTime": 1571248484352,
+        "name": "New Task",
+        "description": "new",
+        "priority": 1,
+        "id": 12
+    },
+    {
+        "status": "Done",
+        "openOn": "15/10/2019, 23:29:10",
+        "openOnTime": 1571077800000,
+        "inProgressOn": "15/10/2019, 23:29:10",
+        "inProgressOnTime": 1571077800000,
+        "doneOn": "15/10/2019, 23:29:10",
+        "doneOnTime": 1571077800000,
+        "name": "New Task",
+        "description": "New Task",
+        "priority": 10,
+        "id": 13
     }
 ]

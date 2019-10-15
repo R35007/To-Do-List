@@ -5,7 +5,7 @@ import { ITask } from "src/models/task.model";
 import "./ToDoListEditForm.scss";
 import StatusSwitch from "./StatusSwitch";
 import { Status } from "../../../enum/status.enum";
-import { convertDateToTime, getTimes } from "src/assets/utils/utils";
+import { convertDateNumberToTime } from "src/assets/utils/utils";
 
 interface IProps {
   task: ITask;
@@ -55,9 +55,9 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
   isStatusEditable = () => {
     const editedTask = this.state.task;
     const { selectedDate } = this.props;
-    const selectedDateTime = convertDateToTime(selectedDate);
+    const selectedDateTime = convertDateNumberToTime(selectedDate.getTime());
 
-    const { openOnTime, inProgressOnTime, doneOnTime } = getTimes(editedTask);
+    const { openOnTime, inProgressOnTime = 0, doneOnTime } = editedTask;
 
     return !(selectedDateTime < openOnTime) && !(selectedDateTime < inProgressOnTime);
   };
@@ -67,11 +67,11 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
     const editedTask = { ...this.state.task };
 
     const selectedDateStr = selectedDate.toLocaleString();
-    const selectedDateTime = convertDateToTime(selectedDateStr);
+    const selectedDateTime = convertDateNumberToTime(selectedDate.getTime());
     editedTask.status = status;
     if (status == Status.DONE) {
       editedTask.doneOn = task.deletedOn || selectedDateStr;
-      editedTask.doneOnTime = task.deletedOnTime || selectedDateTime;
+      editedTask.doneOnTime = task.deleteOnTime || selectedDateTime;
     } else if (status == Status.OPEN) {
       editedTask.openOn = task.openOn || selectedDateStr;
       editedTask.openOnTime = task.openOnTime || selectedDateTime;

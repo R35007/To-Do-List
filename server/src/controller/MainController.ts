@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import Path from "path";
 import fs from "fs";
 import { ITask } from "../model/task.model";
-import { getTimes, convertDateToTime, convertTimeToTime } from "../utils/utils";
+import { convertDateNumberToTime } from "../utils/utils";
 const TASKPATH = Path.resolve(__dirname, `../../../assets/tasks.json`);
 
 @Controller("api")
@@ -14,18 +14,17 @@ export class MainController {
   @Get("tasks/all")
   getAllTasks(req: Request, res: Response) {
     const tasks = JSON.parse(fs.readFileSync(TASKPATH, "utf-8"));
-    const data = tasks.filter((task: ITask) => !task.deletedOnTime);
+    const data = tasks.filter((task: ITask) => !task.deleteOnTime);
     res.send(data);
   }
 
   @Get("tasks/:selectedTime")
   getTasks(req: Request, res: Response) {
-    const selectedTime = convertTimeToTime(req.params.selectedTime);
-
+    const selectedTime = convertDateNumberToTime(req.params.selectedTime);
     const tasks = JSON.parse(fs.readFileSync(TASKPATH, "utf-8"));
 
     const data = tasks.filter((task: ITask) => {
-      const { openOnTime, doneOnTime, deleteOnTime } = getTimes(task);
+      const { openOnTime, doneOnTime = 0, deleteOnTime = 0 } = task;
       return (
         openOnTime <= selectedTime &&
         deleteOnTime == 0 &&

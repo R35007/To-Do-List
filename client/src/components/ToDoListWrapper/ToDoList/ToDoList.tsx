@@ -6,9 +6,9 @@ import axios from "axios";
 import "./ToDoList.scss";
 import { Status } from "../../../enum/status.enum";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
-import { getTimes, convertDateToTime } from "src/assets/utils/utils";
 import { orderBy, SortDescriptor } from "@progress/kendo-data-query";
 import { IProviderProps } from "src/models/providerProps.model";
+import { convertDateNumberToTime } from "src/assets/utils/utils";
 
 interface IState {
   tasks: ITask[];
@@ -42,7 +42,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
   remove = (dataItem: ITask) => {
     const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
     dataItem.deletedOn = selectedDate.toLocaleString();
-    dataItem.deletedOnTime = selectedDate.getTime();
+    dataItem.deleteOnTime = selectedDate.getTime();
     axios
       .delete("tasks", { data: dataItem })
       .then(() => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
@@ -80,7 +80,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     return {
       status: "Open",
       openOn: selectedDate.toLocaleString(),
-      openOnTime: selectedDate.getTime()
+      openOnTime: convertDateNumberToTime(selectedDate.getTime())
     };
   }
 
@@ -103,8 +103,8 @@ class ToDoList extends React.Component<IProviderProps, IState> {
   };
 
   renderCurrentStatus = ({ dataItem }: GridCellProps) => {
-    const { inProgressOnTime, doneOnTime, openOnTime } = getTimes(dataItem);
-    const selectedTime = convertDateToTime(this.props.selectedDate);
+    const { inProgressOnTime = 0, doneOnTime = 0, openOnTime } = dataItem;
+    const selectedTime = convertDateNumberToTime(this.props.selectedDate.getTime());
 
     const icon =
       (doneOnTime < selectedTime && doneOnTime != 0) || openOnTime > selectedTime ? (

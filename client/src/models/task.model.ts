@@ -5,11 +5,11 @@ export interface ITask {
   status: string;
   openOn: string;
   inProgressOn: null | string;
-  doneOn: null | string;
-  deletedOn: null | string;
+  doneOn: undefined | string;
+  deletedOn: undefined | string;
   openOnTime: number;
-  inProgressOnTime: null | number;
-  doneOnTime: null | number;
-  deletedOnTime: null | number;
+  inProgressOnTime: undefined | number;
+  doneOnTime: undefined | number;
+  deleteOnTime: undefined | number;
   priority: number;
 }
