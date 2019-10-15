@@ -6,10 +6,17 @@
     }
   }
 
+  .k-grid-header-wrap {
+    th:nth-child(4) {
+      padding: 16px 8px !important;
+    }
+  }
+
   .k-grid td {
     cursor: pointer;
     padding: 7px 12px;
     font-size: 13px;
+    line-height: 19px;
     &:last-child {
       > button {
         opacity: 0.2;
@@ -17,10 +24,6 @@
           opacity: 0.8;
         }
       }
-    }
-
-    &:nth-child(3) {
-      line-height: 19px;
     }
   }
 

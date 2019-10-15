@@ -1,16 +1,16 @@
 import React from "react";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
-import { Input } from "@progress/kendo-react-inputs";
+import { Input, NumericTextBox, NumericTextBoxChangeEvent } from "@progress/kendo-react-inputs";
 import { ITask } from "src/models/task.model";
 import "./ToDoListEditForm.scss";
 import StatusSwitch from "./StatusSwitch";
-import { Status } from "../../../../enum/status.enum";
+import { Status } from "../../../enum/status.enum";
 import { convertDateToTime, getTimes } from "src/assets/utils/utils";
 
 interface IProps {
-  dataItem: ITask;
+  task: ITask;
   selectedDate: Date;
-  save(): void;
+  save(task: ITask): void;
   cancel(): void;
 }
 
@@ -22,24 +22,26 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      task: this.props.dataItem || null
+      task: this.props.task || null
     };
   }
 
   handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.props.save();
+    this.props.save(this.state.task);
   };
 
   componentWillReceiveProps(nextProps: IProps) {
     this.setState({
-      task: nextProps.dataItem
+      task: nextProps.task
     });
   }
 
-  onDialogInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  onDialogInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | NumericTextBoxChangeEvent
+  ) => {
     let target = event.target;
-    const value = target.value;
+    let value = target.value;
     const name = target.name || "";
 
     const edited = this.state.task;
@@ -55,29 +57,35 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
     const { selectedDate } = this.props;
     const selectedDateTime = convertDateToTime(selectedDate);
 
-    const { openOnTime, inProgressOnTime } = getTimes(editedTask);
-    const todayTime = convertDateToTime(new Date());
+    const { openOnTime, inProgressOnTime, doneOnTime } = getTimes(editedTask);
 
-    return !(selectedDateTime < openOnTime) && !(selectedDateTime < inProgressOnTime)
+    return !(selectedDateTime < openOnTime) && !(selectedDateTime < inProgressOnTime);
   };
 
   onStatusChange = (status: string) => {
-    const { selectedDate } = this.props;
-    const editedTask = this.state.task;
+    const { selectedDate, task } = this.props;
+    const editedTask = { ...this.state.task };
 
     const selectedDateStr = selectedDate.toUTCString();
     const selectedDateTime = convertDateToTime(selectedDateStr);
     editedTask.status = status;
     if (status == Status.DONE) {
-      editedTask.doneOn = selectedDateStr;
-      editedTask.doneOnTime = selectedDateTime;
+      editedTask.doneOn = task.deletedOn || selectedDateStr;
+      editedTask.doneOnTime = task.deletedOnTime || selectedDateTime;
     } else if (status == Status.OPEN) {
-      editedTask.openOn = selectedDateStr;
-      editedTask.openOnTime = selectedDateTime;
+      editedTask.openOn = task.openOn || selectedDateStr;
+      editedTask.openOnTime = task.openOnTime || selectedDateTime;
+      delete editedTask.inProgressOn;
+      delete editedTask.inProgressOnTime;
+      delete editedTask.doneOn;
+      delete editedTask.doneOnTime;
     } else {
-      editedTask.inProgressOn = selectedDateStr;
-      editedTask.inProgressOnTime = selectedDateTime;
+      editedTask.inProgressOn = task.inProgressOn || selectedDateStr;
+      editedTask.inProgressOnTime = task.inProgressOnTime || selectedDateTime;
+      delete editedTask.doneOn;
+      delete editedTask.doneOnTime;
     }
+
     this.setState({
       task: editedTask
     });
@@ -118,15 +126,31 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
             </label>
           </div>
           <div>
-            <label style={{ width: "auto" }}>
-              Status :
-              <StatusSwitch
-                onChange={this.onStatusChange}
-                status={task.status || Status.OPEN}
-                isStatusEditable={this.isStatusEditable}
-              />
-              <br />
-            </label>
+            <div className="row">
+              <div className="col-4">
+                <label>
+                  Priority :
+                  <NumericTextBox
+                    required={true}
+                    name="priority"
+                    onChange={this.onDialogInputChange}
+                    value={task.priority}
+                  />
+                  <br />
+                </label>
+              </div>
+              <div className="col-6">
+                <label style={{ width: "auto" }}>
+                  Status :
+                  <StatusSwitch
+                    onChange={this.onStatusChange}
+                    status={task.status || Status.OPEN}
+                    isStatusEditable={this.isStatusEditable}
+                  />
+                  <br />
+                </label>
+              </div>
+            </div>
           </div>
           <div>
             <label>
@@ -134,22 +158,18 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
               <br />
             </label>
           </div>
-          {task.inProgressOn && (
-            <div>
-              <label>
-                In Progress On : {task.inProgressOn}
-                <br />
-              </label>
-            </div>
-          )}
-          {task.doneOn && (
-            <div>
-              <label>
-                Done On : {task.doneOn}
-                <br />
-              </label>
-            </div>
-          )}
+          <div>
+            <label>
+              In Progress On : {task.inProgressOn}
+              <br />
+            </label>
+          </div>
+          <div>
+            <label>
+              Done On : {task.doneOn}
+              <br />
+            </label>
+          </div>
         </form>
         <DialogActionsBar>
           <button type="button" className="k-button" onClick={this.props.cancel}>

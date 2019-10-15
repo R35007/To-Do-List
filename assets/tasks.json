@@ -5,7 +5,8 @@
         "openOnTime": 1570975084993,
         "name": "Task 1",
         "description": "Task 1",
-        "id": 1
+        "id": 1,
+        "priority": 4
     },
     {
         "status": "Open",
@@ -13,7 +14,8 @@
         "openOnTime": 1570975084993,
         "name": "Task 2",
         "description": "Task 2",
-        "id": 2
+        "id": 2,
+        "priority": 4
     },
     {
         "status": "In Progress",
@@ -22,8 +24,9 @@
         "name": "Task 3",
         "description": "Task 3",
         "id": 3,
-        "inProgressOn": "Mon, 14 Oct 2019 13:58:04 GMT",
-        "inProgressOnTime": 1570991400000
+        "priority": 2,
+        "inProgressOn": "Tue, 15 Oct 2019 15:29:09 GMT",
+        "inProgressOnTime": 1571077800000
     },
     {
         "status": "Open",
@@ -31,6 +34,7 @@
         "openOnTime": 1571061484993,
         "name": "Task 4",
         "description": "Task 4",
+        "priority": 3,
         "id": 4
     },
     {
@@ -41,15 +45,21 @@
         "description": "Task 5",
         "id": 5,
         "inProgressOn": "Mon, 14 Oct 2019 14:04:57 GMT",
+        "priority": 1,
         "inProgressOnTime": 1570991400000
     },
     {
-        "status": "Open",
+        "status": "Done",
         "openOn": "Tue, 15 Oct 2019 13:58:04 GMT",
         "openOnTime": 1571147884993,
         "name": "Task 6",
         "description": "Task 6",
-        "id": 6
+        "priority": 5,
+        "id": 6,
+        "inProgressOn": "Wed, 16 Oct 2019 15:31:38 GMT",
+        "inProgressOnTime": 1571164200000,
+        "doneOn": "Wed, 16 Oct 2019 15:31:38 GMT",
+        "doneOnTime": 1571164200000
     },
     {
         "status": "Done",
@@ -61,6 +71,7 @@
         "inProgressOn": "Wed, 16 Oct 2019 13:58:04 GMT",
         "inProgressOnTime": 1571164200000,
         "doneOn": "Wed, 16 Oct 2019 13:58:04 GMT",
-        "doneOnTime": 1571164200000
+        "doneOnTime": 1571164200000,
+        "priority": 1000
     }
 ]

@@ -21,6 +21,17 @@
   }
 }
 
+.k-numerictextbox {
+  width: 100px;
+  margin-left: 20px;
+  .k-state-invalid {
+    border-top: none;
+    .k-select {
+      color: black !important;
+    }
+  }
+}
+
 .k-animation-container {
   z-index: 10003;
 }

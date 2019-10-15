@@ -4,7 +4,7 @@ import "@progress/kendo-theme-material/dist/all.css";
 import "./assets/css/common-styles.scss";
 import "./app.scss";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
-import Today from "./components/Today/Today";
+import ToDoListWrapper from "./components/ToDoListWrapper/ToDoListWrapper";
 import TaskChart from "./components/TaskChart/TaskChart";
 import ProviderWrapper from "./components//Context/ProviderWrapper";
 
@@ -22,7 +22,7 @@ class App extends React.Component<any, {}> {
           </a>
         </nav>
         <main>
-          <Today />
+          <ToDoListWrapper />
           <TaskChart />
         </main>
       </div>

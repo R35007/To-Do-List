@@ -1,5 +1,5 @@
 import React from "react";
-import { Status } from "../../../../enum/status.enum";
+import { Status } from "../../../enum/status.enum";
 
 interface IProps {
   status: string;
@@ -15,7 +15,7 @@ function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
           type="button"
           onClick={() => onChange(Status.OPEN)}
           className="status btn bg-success text-white ml-3 rounded"
-          disabled={true}
+          disabled={!isStatusEditable()}
         >
           {Status.DONE}
         </button>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, GridColumn, GridCellProps, GridRowClickEvent } from "@progress/kendo-react-grid";
-import ToDoListEditForm from "./ToDoListEditForm/ToDoListEditForm";
+import ToDoListEditForm from "../ToDoListEditForm/ToDoListEditForm";
 import { ITask } from "src/models/task.model.js";
 import axios from "axios";
 import "./ToDoList.scss";
@@ -32,7 +32,7 @@ class ToDoList extends React.Component<IProps, IState> {
       tasks: this.props.tasks,
       taskInEdit: undefined,
       deletableTask: undefined,
-      sort: [{ field: "status", dir: "desc" }]
+      sort: [{ field: "priority", dir: "asc" }, { field: "status", dir: "desc" }]
     };
   }
 
@@ -48,7 +48,7 @@ class ToDoList extends React.Component<IProps, IState> {
 
   remove = (dataItem: ITask) => {
     const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
-    dataItem.deletedOn = selectedDate.toUTCString();
+    dataItem.deletedOn = selectedDate.toISOString();
     dataItem.deletedOnTime = selectedDate.getTime();
     axios
       .delete("tasks", { data: dataItem })
@@ -57,18 +57,17 @@ class ToDoList extends React.Component<IProps, IState> {
     this.cancel();
   };
 
-  save = () => {
-    const dataItem = this.state.taskInEdit!;
+  save = (task: ITask) => {
     const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
 
-    if (dataItem.id) {
+    if (task.id) {
       axios
-        .put("tasks", dataItem)
+        .put("tasks", task)
         .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
         .catch(err => console.log(err));
     } else {
       axios
-        .post("tasks", dataItem)
+        .post("tasks", task)
         .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
         .catch(err => console.log(err));
     }
@@ -87,7 +86,7 @@ class ToDoList extends React.Component<IProps, IState> {
     const { selectedDate } = this.props;
     return {
       status: "Open",
-      openOn: selectedDate.toUTCString(),
+      openOn: selectedDate.toISOString(),
       openOnTime: selectedDate.getTime()
     };
   }
@@ -146,55 +145,68 @@ class ToDoList extends React.Component<IProps, IState> {
     const { taskInEdit, deletableTask, tasks, sort } = this.state;
     const { selectedDate } = this.props;
     return (
-      <div className="col h-100 p-0" style={{ position: "static" }}>
-        <div className="todo-table-div h-100">
-          <Grid
-            data={orderBy(tasks, sort)}
-            sortable={true}
-            sort={sort}
-            onSortChange={e => this.setState({ sort: e.sort })}
-            onRowClick={this.edit}
-            style={{ height: "100%" }}
-          >
-            <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
-            <GridColumn field="name" title="Name" width="100px" />
-            <GridColumn field="description" title="Description" />
-            <GridColumn field="openOnTime" title="Open" width="110px" cell={this.renderShortDate} />
-            <GridColumn
-              field="inProgressOnTime"
-              title="InProgress"
-              width="110px"
-              cell={this.renderShortDate}
-            />
-            <GridColumn field="doneOnTime" title="Done" width="110px" cell={this.renderShortDate} />
-            <GridColumn field="status" title="Status" width="130px" cell={this.renderStatus} />
-          </Grid>
-          {taskInEdit && (
-            <ToDoListEditForm
-              dataItem={taskInEdit}
-              selectedDate={selectedDate}
-              save={this.save}
-              cancel={this.cancel}
-            />
-          )}
-          {deletableTask && (
-            <Dialog title={"Please confirm"} onClose={this.cancel}>
-              <p style={{ margin: "25px", textAlign: "center" }}>
-                Are you sure you want to remove {deletableTask.name} ?
-              </p>
-              <DialogActionsBar>
-                <button className="k-button" onClick={this.cancel}>
-                  No
-                </button>
-                <button className="k-button" onClick={() => this.remove(deletableTask)}>
-                  Yes
-                </button>
-              </DialogActionsBar>
-            </Dialog>
-          )}
-          <button onClick={this.insert} className="add btn rounded-circle">
-            <i className="fas fa-plus" />
-          </button>
+      <div className="row m-0" style={{ height: "calc(100% - 40px)" }}>
+        <div className="col h-100 p-0" style={{ position: "static" }}>
+          <div className="todo-table-div h-100">
+            <Grid
+              data={orderBy(tasks, sort)}
+              sortable={{ mode: "multiple" }}
+              sort={sort}
+              onSortChange={e => this.setState({ sort: e.sort })}
+              onRowClick={this.edit}
+              style={{ height: "100%" }}
+            >
+              <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
+              <GridColumn field="name" title="Name" width="100px" />
+              <GridColumn field="description" title="Description" />
+              <GridColumn field="priority" title="P" width="50px" />
+              <GridColumn
+                field="openOnTime"
+                title="Open"
+                width="110px"
+                cell={this.renderShortDate}
+              />
+              <GridColumn
+                field="inProgressOnTime"
+                title="InProgress"
+                width="110px"
+                cell={this.renderShortDate}
+              />
+              <GridColumn
+                field="doneOnTime"
+                title="Done"
+                width="110px"
+                cell={this.renderShortDate}
+              />
+              <GridColumn field="status" title="Status" width="130px" cell={this.renderStatus} />
+            </Grid>
+            {taskInEdit && (
+              <ToDoListEditForm
+                task={taskInEdit}
+                selectedDate={selectedDate}
+                save={this.save}
+                cancel={this.cancel}
+              />
+            )}
+            {deletableTask && (
+              <Dialog title={"Please confirm"} onClose={this.cancel}>
+                <p style={{ margin: "25px", textAlign: "center" }}>
+                  Are you sure you want to remove {deletableTask.name} ?
+                </p>
+                <DialogActionsBar>
+                  <button className="k-button" onClick={this.cancel}>
+                    No
+                  </button>
+                  <button className="k-button" onClick={() => this.remove(deletableTask)}>
+                    Yes
+                  </button>
+                </DialogActionsBar>
+              </Dialog>
+            )}
+            <button onClick={this.insert} className="add btn rounded-circle">
+              <i className="fas fa-plus" />
+            </button>
+          </div>
         </div>
       </div>
     );

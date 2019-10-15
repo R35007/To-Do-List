@@ -11,4 +11,5 @@ export interface ITask {
   inProgressOnTime: null | number;
   doneOnTime: null | number;
   deletedOnTime: null | number;
+  priority: number;
 }
