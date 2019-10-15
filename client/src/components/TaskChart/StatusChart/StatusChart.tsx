@@ -61,28 +61,43 @@ class StatusChart extends PureComponent<IProviderProps, IState> {
     }
   }
 
+  donutCenterRenderer = () => {
+    const { filteredTasks } = this.props;
+    const totalCount = filteredTasks.length;
+    const doneCount = filteredTasks.filter((task: ITask) => task.status === Status.DONE).length;
+
+    const donePercent = ((doneCount / totalCount) * 100).toFixed(2);
+    return (
+      <span>
+        <h3>{donePercent}%</h3> of which Done
+      </span>
+    );
+  };
+
   render() {
     const { data } = this.state;
     return (
       <div className="status-chart mt-4">
         <header>Status</header>
         {data.length == 0 && <div className="no-data">No Data</div>}
-        <Chart style={{ height: "100%" }}>
-          <ChartTooltip />
-          <ChartArea background="#eee" margin={0} />
-          <ChartSeries>
-            <ChartSeriesItem
-              type="donut"
-              data={data}
-              categoryField="name"
-              field="data"
-              color="color"
-            >
-              <ChartSeriesLabels color="#fff" background="none" content={e => e.category} />
-            </ChartSeriesItem>
-          </ChartSeries>
-          <ChartLegend visible={false} />
-        </Chart>
+        {data.length > 0 && (
+          <Chart donutCenterRender={this.donutCenterRenderer} style={{ height: "100%" }}>
+            <ChartTooltip />
+            <ChartArea background="#eee" margin={0} />
+            <ChartSeries>
+              <ChartSeriesItem
+                type="donut"
+                data={data}
+                categoryField="name"
+                field="data"
+                color="color"
+              >
+                <ChartSeriesLabels color="#fff" background="none" content={e => e.category} />
+              </ChartSeriesItem>
+            </ChartSeries>
+            <ChartLegend visible={false} />
+          </Chart>
+        )}
       </div>
     );
   }
