@@ -18,7 +18,7 @@ class App extends React.Component<any, {}> {
       <div className="container-fluid pane-content p-0">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="#">
-            To Do List
+            What To Do
           </a>
         </nav>
         <main>

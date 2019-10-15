@@ -8,14 +8,7 @@ import { Status } from "../../../enum/status.enum";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import { getTimes, convertDateToTime } from "src/assets/utils/utils";
 import { orderBy, SortDescriptor } from "@progress/kendo-data-query";
-
-interface IProps {
-  tasks: ITask[];
-  selectedDate: Date;
-  isViewAll: boolean;
-  getTasks(selectedDate: Date): void;
-  getAllTasks(): void;
-}
+import { IProviderProps } from "src/models/providerProps.model";
 
 interface IState {
   tasks: ITask[];
@@ -24,21 +17,21 @@ interface IState {
   sort: SortDescriptor[];
 }
 
-class ToDoList extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class ToDoList extends React.Component<IProviderProps, IState> {
+  constructor(props: IProviderProps) {
     super(props);
 
     this.state = {
-      tasks: this.props.tasks,
+      tasks: this.props.filteredTasks,
       taskInEdit: undefined,
       deletableTask: undefined,
       sort: [{ field: "priority", dir: "asc" }, { field: "status", dir: "desc" }]
     };
   }
 
-  componentWillReceiveProps(nextProps: IProps) {
+  componentWillReceiveProps(nextProps: IProviderProps) {
     this.setState({
-      tasks: nextProps.tasks
+      tasks: nextProps.filteredTasks
     });
   }
 

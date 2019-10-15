@@ -13,10 +13,7 @@ import "./StatusChart.scss";
 import { ITask } from "src/models/task.model";
 import { Status } from "src/enum/status.enum";
 import ConsumerWrapper from "src/components/Context/ConsumerWrapper";
-
-interface IProps {
-  tasks: ITask[];
-}
+import { IProviderProps } from "src/models/providerProps.model";
 
 interface IState {
   data: IData[];
@@ -28,20 +25,21 @@ interface IData {
   color?: string;
 }
 
-class StatusChart extends PureComponent<IProps, IState> {
+class StatusChart extends PureComponent<IProviderProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
       data: []
     };
   }
-  componentWillReceiveProps(props: IProps) {
-    const { tasks } = props;
-    if (tasks.length > 0) {
-      const openCount = tasks.filter((task: ITask) => task.status === Status.OPEN).length;
-      const inProgressCount = tasks.filter((task: ITask) => task.status === Status.INPROGRESS)
-        .length;
-      const doneCount = tasks.filter((task: ITask) => task.status === Status.DONE).length;
+  componentWillReceiveProps(props: IProviderProps) {
+    const { filteredTasks } = props;
+    if (filteredTasks.length > 0) {
+      const openCount = filteredTasks.filter((task: ITask) => task.status === Status.OPEN).length;
+      const inProgressCount = filteredTasks.filter(
+        (task: ITask) => task.status === Status.INPROGRESS
+      ).length;
+      const doneCount = filteredTasks.filter((task: ITask) => task.status === Status.DONE).length;
       const data = [
         {
           name: `Open \n ${openCount}`,

@@ -5,6 +5,7 @@ import { ITask } from "src/models/task.model";
 interface IState {
   selectedDate: Date;
   tasks: ITask[];
+  filteredTasks: ITask[];
   isViewAll: boolean;
 }
 
@@ -15,6 +16,7 @@ const ProviderWrapper = (Component: React.ComponentType) =>
       this.state = {
         selectedDate: new Date(),
         tasks: [],
+        filteredTasks: [],
         isViewAll: false
       };
     }
@@ -32,6 +34,7 @@ const ProviderWrapper = (Component: React.ComponentType) =>
             ...this.state,
             selectedDate,
             tasks,
+            filteredTasks: [...tasks],
             isViewAll: false
           });
         });
@@ -44,16 +47,28 @@ const ProviderWrapper = (Component: React.ComponentType) =>
           this.setState({
             ...this.state,
             tasks,
+            filteredTasks: [...tasks],
             isViewAll: true
           });
         });
     };
 
+    setFilteredTask = (filteredTasks: ITask[]) => {
+      this.setState({ filteredTasks });
+    };
+
+    getStore = () => {
+      return {
+        ...this.state,
+        getTasks: this.getTasks,
+        getAllTasks: this.getAllTasks,
+        setFilteredTask: this.setFilteredTask
+      };
+    };
+
     render() {
       return (
-        <TasksProvider
-          value={{ ...this.state, getTasks: this.getTasks, getAllTasks: this.getAllTasks }}
-        >
+        <TasksProvider value={this.getStore()}>
           <Component />
         </TasksProvider>
       );

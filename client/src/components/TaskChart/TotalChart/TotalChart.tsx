@@ -11,20 +11,15 @@ import {
 } from "@progress/kendo-react-charts";
 import ConsumerWrapper from "src/components/Context/ConsumerWrapper";
 import { ITask } from "src/models/task.model";
+import { IProviderProps } from "src/models/providerProps.model";
 
-interface IProps {
-  tasks: ITask[];
-  isViewAll: boolean;
-  selectedDate: Date;
-}
-
-class TotalChart extends Component<IProps, {}> {
-  constructor(props: IProps) {
+class TotalChart extends Component<IProviderProps, {}> {
+  constructor(props: IProviderProps) {
     super(props);
   }
 
   render() {
-    const { tasks, isViewAll, selectedDate } = this.props;
+    const { filteredTasks, isViewAll, selectedDate } = this.props;
     const title = isViewAll ? "Overall" : selectedDate.toDateString();
     return (
       <div className="today-chart">
@@ -35,7 +30,7 @@ class TotalChart extends Component<IProps, {}> {
             <ChartCategoryAxisItem categories={["Total"]} />
           </ChartCategoryAxis>
           <ChartSeries>
-            <ChartSeriesItem type="bar" gap={2} spacing={0.25} data={[tasks.length]}>
+            <ChartSeriesItem type="bar" gap={2} spacing={0.25} data={[filteredTasks.length]}>
               <ChartSeriesLabels background="none" content={e => e.value} />
             </ChartSeriesItem>
           </ChartSeries>
