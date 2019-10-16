@@ -1,0 +1,40 @@
+.to-do-wrapper {
+  width: 70%;
+  .nav {
+    padding: 0 12px;
+    cursor: pointer;
+  }
+
+  .switch {
+    display: inline-block;
+    margin-left: 22px;
+    .k-switch {
+      font-size: 6px;
+      .k-switch-container {
+        background-color: #00458c;
+      }
+
+      &.k-switch-off .k-switch-container {
+        background-color: rgba(0, 0, 0, 0.38) !important;
+      }
+      .k-switch-handle {
+        background-color: #d2f3ff !important;
+      }
+    }
+    .viewAll {
+      font-size: 12px;
+      margin-left: 10px;
+    }
+  }
+
+  .search {
+    .icon {
+      opacity: 0.3;
+      position: absolute;
+      top: 10px;
+    }
+    input {
+      padding-left: 18px;
+    }
+  }
+}

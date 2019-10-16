@@ -1,0 +1,73 @@
+.todo-table-div {
+  .k-dialog-wrapper {
+    position: absolute;
+    .k-overlay {
+      position: absolute;
+    }
+  }
+
+  .k-grid-header-wrap {
+    th:nth-child(4) {
+      padding: 16px 8px !important;
+    }
+  }
+
+  .k-virtual-content {
+    > div {
+      padding-bottom: 100px;
+    }
+  }
+
+  .k-grid td {
+    cursor: pointer;
+    padding: 7px 12px;
+    font-size: 13px;
+    line-height: 19px;
+    &:last-child {
+      > button {
+        opacity: 0.2;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .add {
+    background: #00c4ff;
+    color: white;
+    position: absolute;
+    right: 13px;
+    bottom: 14px;
+    outline: none !important;
+    box-shadow: none;
+    z-index: 10;
+
+    &:active {
+      box-shadow: 0 0 5px -3px black;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .today-status {
+    font-size: 17px;
+    position: absolute;
+    left: 3px;
+    margin-top: -3px;
+  }
+
+  .status {
+    width: 80px;
+    font-size: 10px;
+    padding: 4px 0;
+  }
+
+  .remove {
+    padding: 0;
+    position: absolute;
+    right: 10px;
+  }
+}
