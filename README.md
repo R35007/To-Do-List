@@ -1,9 +1,20 @@
 # To-Do-List
 
 A simple Tool which helps to track your daily task status. 
-You could prioritize your task an also can set the status to opn, inprogress and done.
-You can also aloocate a future task to your list.
+You could prioritize your task an also can set the status to open, inprogress and done.
+You can also allocate a future task to your list.
 A simple dashboard is available to view the today and overall task reports.
+
+This tool is built upon the react js and node js. 
+The data are stored as a json file for read and write operation. 
+In the upcomming version I will go with firebase to store the data and host this application online so that any one can use.
+
+### Setup Steps :
+
+- Step 1 : **"git clone https://github.com/R35007/To-Do-List.git"**  to clone the repo or you can download as a zip
+- Step 2 : go to the project folder in terminal and give **"npm run dev-i"** to install the dependencies.
+- Step 3 : once the instalation is complete give **"npm start"** to start the application
+- Step 4 : The defalut browser will automatically opens and runs the application, if not go to any browser and give             **"http://localhost:3000/"** to run the application on the browser
 
 ### Sample Screenshots : 
 
