@@ -1,7 +1,7 @@
 # To-Do-List
 
 A simple Tool which helps to track your daily task status. 
-You could prioritize your task an also can set the status to open, inprogress and done.
+You could prioritize your task and also can set the status to open, inprogress and done.
 You can also allocate a future task to your list.
 A simple dashboard is available to view the today and overall task reports.
 
