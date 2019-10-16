@@ -36,7 +36,7 @@ function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
         <button
           type="button"
           onClick={() => onChange(Status.INPROGRESS)}
-          className="status tbn bg-info text-white ml-3 rounded"
+          className="status btn bg-info text-white ml-3 rounded"
           disabled={!isStatusEditable()}
         >
           {Status.OPEN}
