@@ -20,7 +20,7 @@ In the upcomming version I will go with firebase to store the data and host this
 
 Landing Page :
 
-<img width="1440" alt="Landing Page" src="https://user-images.githubusercontent.com/23217228/66892813-43d6ca80-f00a-11e9-9e24-4cf72baabdd5.png">
+<a href="https://user-images.githubusercontent.com/23217228/66892813-43d6ca80-f00a-11e9-9e24-4cf72baabdd5.png"><img width="1440" alt="Landing Page" src="https://user-images.githubusercontent.com/23217228/66892813-43d6ca80-f00a-11e9-9e24-4cf72baabdd5.png"></a>
 
 Add or Edit View :
 
