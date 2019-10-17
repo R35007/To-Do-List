@@ -1,14 +1,14 @@
 import React from "react";
 import { Grid, GridColumn, GridCellProps, GridRowClickEvent } from "@progress/kendo-react-grid";
 import ToDoListEditForm from "../ToDoListEditForm/ToDoListEditForm";
-import { ITask } from "src/models/task.model.js";
+import { ITask } from "../../../models/task.model";
 import axios from "axios";
 import "./ToDoList.scss";
 import { Status } from "../../../enum/status.enum";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import { orderBy, SortDescriptor } from "@progress/kendo-data-query";
-import { IProviderProps } from "src/models/providerProps.model";
-import { convertDateNumberToTime } from "src/assets/utils/utils";
+import { IProviderProps } from "../../../models/providerProps.model";
+import { convertDateNumberToTime } from "../../../assets/utils/utils";
 
 interface IState {
   tasks: ITask[];
@@ -89,9 +89,9 @@ class ToDoList extends React.Component<IProviderProps, IState> {
   renderStatus = ({ dataItem }: GridCellProps) => {
     const className =
       "status btn text-white rounded " +
-      (dataItem.status == Status.OPEN
+      (dataItem.status === Status.OPEN
         ? "bg-info"
-        : dataItem.status == Status.INPROGRESS
+        : dataItem.status === Status.INPROGRESS
         ? "bg-warning"
         : "bg-success");
     return (
@@ -109,13 +109,13 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     const selectedTime = convertDateNumberToTime(this.props.selectedDate.getTime());
 
     const icon =
-      (doneOnTime < selectedTime && doneOnTime != 0) || openOnTime > selectedTime ? (
+      (doneOnTime < selectedTime && doneOnTime !== 0) || openOnTime > selectedTime ? (
         <></>
-      ) : doneOnTime === selectedTime && doneOnTime != 0 ? (
+      ) : doneOnTime === selectedTime && doneOnTime !== 0 ? (
         <span className={"today-status text-success"} title={Status.DONE}>
           <i className="fas fa-check-square" />
         </span>
-      ) : inProgressOnTime <= selectedTime && inProgressOnTime != 0 ? (
+      ) : inProgressOnTime <= selectedTime && inProgressOnTime !== 0 ? (
         <span className={"today-status text-warning"} title={Status.INPROGRESS}>
           <i className="fas fa-pen-square" />
         </span>

@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "ToDoListEditForm.css",
+	"sources": [
+		"ToDoListEditForm.scss"
+	],
+	"sourcesContent": [
+		".k-dialog-titlebar {\n  background: #00c4ff;\n  padding: 12px 20px;\n}\n\n.k-window-content {\n  margin: 0 !important;\n  padding: 24px !important;\n\n  label,\n  input,\n  textarea {\n    width: 100%;\n  }\n\n  textarea {\n    min-height: 113px;\n    margin-top: 10px;\n    border: 1px solid #b9b9b9;\n    padding: 10px;\n  }\n}\n\n.k-numerictextbox {\n  width: 100px;\n  margin-left: 20px;\n  .k-state-invalid {\n    border-top: none;\n    .k-select {\n      color: black !important;\n    }\n  }\n}\n\n.k-animation-container {\n  z-index: 10003;\n}\n\n.k-state-invalid {\n  border-color: rgba(0, 0, 0, 0.42) !important;\n}\n\n.task-form {\n  > div {\n    margin-bottom: 1rem;\n  }\n\n  .status {\n    border: none;\n    font-size: 13px !important;\n  }\n}\n"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,kBAAkB,CAAC;EACjB,UAAU,EAAE,OAAO;EACnB,OAAO,EAAE,SAAS,GACnB;;AAED,AAAA,iBAAiB,CAAC;EAChB,MAAM,EAAE,YAAY;EACpB,OAAO,EAAE,eAAe,GAczB;EAhBD,AAIE,iBAJe,CAIf,KAAK;EAJP,iBAAiB,CAKf,KAAK;EALP,iBAAiB,CAMf,QAAQ,CAAC;IACP,KAAK,EAAE,IAAI,GACZ;EARH,AAUE,iBAVe,CAUf,QAAQ,CAAC;IACP,UAAU,EAAE,KAAK;IACjB,UAAU,EAAE,IAAI;IAChB,MAAM,EAAE,iBAAiB;IACzB,OAAO,EAAE,IAAI,GACd;;AAGH,AAAA,iBAAiB,CAAC;EAChB,KAAK,EAAE,KAAK;EACZ,WAAW,EAAE,IAAI,GAOlB;EATD,AAGE,iBAHe,CAGf,gBAAgB,CAAC;IACf,UAAU,EAAE,IAAI,GAIjB;IARH,AAKI,iBALa,CAGf,gBAAgB,CAEd,SAAS,CAAC;MACR,KAAK,EAAE,gBAAgB,GACxB;;AAIL,AAAA,sBAAsB,CAAC;EACrB,OAAO,EAAE,KAAK,GACf;;AAED,AAAA,gBAAgB,CAAC;EACf,YAAY,EAAE,mBAAmB,CAAC,UAAU,GAC7C;;AAED,AACE,UADQ,GACN,GAAG,CAAC;EACJ,aAAa,EAAE,IAAI,GACpB;;AAHH,AAKE,UALQ,CAKR,OAAO,CAAC;EACN,MAAM,EAAE,IAAI;EACZ,SAAS,EAAE,eAAe,GAC3B"
+}

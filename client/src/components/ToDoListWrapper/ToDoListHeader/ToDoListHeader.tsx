@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { DatePicker, DatePickerChangeEvent } from "@progress/kendo-react-dateinputs";
 import { Switch, SwitchChangeEvent, Input } from "@progress/kendo-react-inputs";
-import { ITask } from "src/models/task.model";
-import { IProviderProps } from "src/models/providerProps.model";
+import { ITask } from "../../../models/task.model";
+import { IProviderProps } from "../../../models/providerProps.model";
 
 interface IState {
   isViewAll: boolean;
@@ -62,9 +62,9 @@ export class ToDoListHeader extends Component<IProviderProps, IState> {
     const { isViewAll } = this.state;
     return (
       <header className="d-flex align-items-center p-1">
-        <a className="nav prev" onClick={() => this.setDate(-1)}>
+        <span className="nav prev" onClick={() => this.setDate(-1)}>
           <i className="fas fa-caret-left" />
-        </a>
+        </span>
         <div className="col">
           <DatePicker onChange={this.handleDateChange} format="dd/MMMM/yyyy" value={selectedDate} />
           <div className="switch">
@@ -76,9 +76,9 @@ export class ToDoListHeader extends Component<IProviderProps, IState> {
             <Input onChange={this.handleSearch} />
           </div>
         </div>
-        <a className="nav next" onClick={() => this.setDate(1)}>
+        <span className="nav next" onClick={() => this.setDate(1)}>
           <i className="fas fa-caret-right" />
-        </a>
+        </span>
       </header>
     );
   }

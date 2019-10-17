@@ -9,9 +9,9 @@ import {
   ChartArea
 } from "@progress/kendo-react-charts";
 import "./StatusChart.scss";
-import { ITask } from "src/models/task.model";
-import { Status } from "src/enum/status.enum";
-import { IProviderProps } from "src/models/providerProps.model";
+import { ITask } from "../../../models/task.model";
+import { Status } from "../../../enum/status.enum";
+import { IProviderProps } from "../../../models/providerProps.model";
 
 interface IState {
   data: IData[];
@@ -77,7 +77,7 @@ class StatusChart extends PureComponent<IProviderProps, IState> {
     return (
       <div className="status-chart mt-4">
         <header>Status</header>
-        {data.length == 0 && <div className="no-data">No Data</div>}
+        {data.length === 0 && <div className="no-data">No Data</div>}
         {data.length > 0 && (
           <Chart donutCenterRender={this.donutCenterRenderer} style={{ height: "100%" }}>
             <ChartTooltip />

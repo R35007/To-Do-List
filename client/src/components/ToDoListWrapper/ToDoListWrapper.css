@@ -1,0 +1,27 @@
+.to-do-wrapper {
+  width: 70%; }
+  .to-do-wrapper .nav {
+    padding: 0 12px;
+    cursor: pointer; }
+  .to-do-wrapper .switch {
+    display: inline-block;
+    margin-left: 22px; }
+    .to-do-wrapper .switch .k-switch {
+      font-size: 6px; }
+      .to-do-wrapper .switch .k-switch .k-switch-container {
+        background-color: #00458c; }
+      .to-do-wrapper .switch .k-switch.k-switch-off .k-switch-container {
+        background-color: rgba(0, 0, 0, 0.38) !important; }
+      .to-do-wrapper .switch .k-switch .k-switch-handle {
+        background-color: #d2f3ff !important; }
+    .to-do-wrapper .switch .viewAll {
+      font-size: 12px;
+      margin-left: 10px; }
+  .to-do-wrapper .search .icon {
+    opacity: 0.3;
+    position: absolute;
+    top: 10px; }
+  .to-do-wrapper .search input {
+    padding-left: 18px; }
+
+/*# sourceMappingURL=ToDoListWrapper.css.map */

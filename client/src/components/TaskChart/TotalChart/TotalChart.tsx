@@ -9,13 +9,10 @@ import {
   ChartTooltip,
   ChartSeriesLabels
 } from "@progress/kendo-react-charts";
-import { IProviderProps } from "src/models/providerProps.model";
+import { IProviderProps } from "../../../models/providerProps.model"
 
 class TotalChart extends Component<IProviderProps, {}> {
-  constructor(props: IProviderProps) {
-    super(props);
-  }
-
+  
   render() {
     const { filteredTasks, isViewAll, selectedDate } = this.props;
     const title = isViewAll ? "Overall" : selectedDate.toDateString();

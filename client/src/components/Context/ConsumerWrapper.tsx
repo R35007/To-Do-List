@@ -1,12 +1,8 @@
 import React from "react";
 import { TasksConsumer } from "./TasksContext";
 
-const ConsumerWrapper = (Component: React.ComponentType) =>
-  class WrapperComponent extends React.Component<any, {}> {
-    constructor(props: any) {
-      super(props);
-    }
-
+const ConsumerWrapper = (Component: React.ComponentType<any>) =>
+  class WrapperComponent extends React.Component<any> {
     render() {
       return (
         <TasksConsumer>{(props: any) => <Component {...props} {...this.props} />}</TasksConsumer>

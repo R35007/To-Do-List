@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "app.css",
+	"sources": [
+		"app.scss"
+	],
+	"sourcesContent": [
+		".container-fluid {\n  height: 100vh;\n\n  main {\n    height: calc(100% - 56px);\n    padding-bottom: 20px;\n    background: rgba(0, 0, 0, 0.04);\n    display: flex;\n    overflow: hidden;\n  }\n}\n"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,gBAAgB,CAAC;EACf,MAAM,EAAE,KAAK,GASd;EAVD,AAGE,gBAHc,CAGd,IAAI,CAAC;IACH,MAAM,EAAE,iBAAiB;IACzB,cAAc,EAAE,IAAI;IACpB,UAAU,EAAE,mBAAmB;IAC/B,OAAO,EAAE,IAAI;IACb,QAAQ,EAAE,MAAM,GACjB"
+}

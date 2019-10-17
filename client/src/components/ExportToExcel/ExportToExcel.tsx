@@ -8,18 +8,13 @@ interface IProps {
 }
 
 export class ExportToExcel extends Component<IProps, any> {
-  exportRef: ExcelExport | null;
-
-  constructor(props: IProps) {
-    super(props);
-  }
+  exportRef!: ExcelExport | null;
 
   export = () => {
     this.exportRef && this.exportRef.save(this.props.tasks);
   };
 
   render() {
-    const { tasks } = this.props;
     return (
       <>
         <button type="button" title="Export Excel" className="download btn p-0" onClick={this.export}>

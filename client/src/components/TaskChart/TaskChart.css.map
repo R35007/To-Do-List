@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "TaskChart.css",
+	"sources": [
+		"TaskChart.scss"
+	],
+	"sourcesContent": [
+		".task-chart {\n  width: 30%;\n  header {\n    padding: 10px;\n  }\n  section {\n    height: calc(100% - 43px);\n  }\n}\n"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,WAAW,CAAC;EACV,KAAK,EAAE,GAAG,GAOX;EARD,AAEE,WAFS,CAET,MAAM,CAAC;IACL,OAAO,EAAE,IAAI,GACd;EAJH,AAKE,WALS,CAKT,OAAO,CAAC;IACN,MAAM,EAAE,iBAAiB,GAC1B"
+}

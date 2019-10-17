@@ -1,6 +1,6 @@
 import React from "react";
 import { TasksProvider } from "./TasksContext";
-import { ITask } from "src/models/task.model";
+import { ITask } from "../../models/task.model";
 
 interface IState {
   selectedDate: Date;

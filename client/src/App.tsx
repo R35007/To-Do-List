@@ -1,25 +1,21 @@
 import * as React from "react";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "@progress/kendo-theme-material/dist/all.css";
 import "./assets/css/common-styles.scss";
 import "./app.scss";
-import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 import ToDoListWrapper from "./components/ToDoListWrapper/ToDoListWrapper";
 import TaskChart from "./components/TaskChart/TaskChart";
 import ProviderWrapper from "./components//Context/ProviderWrapper";
 
-class App extends React.Component<any, {}> {
-  constructor(props: any) {
-    super(props);
-  }
-
+class App extends React.Component{
   public render() {
     return (
       <div className="container-fluid pane-content p-0">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand" href="#">
+          <span className="navbar-brand">
             What To Do
-          </a>
+          </span>
         </nav>
         <main>
           <ToDoListWrapper />

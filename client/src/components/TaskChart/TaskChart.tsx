@@ -4,13 +4,9 @@ import TotalChart from "./TotalChart/TotalChart";
 import StatusChart from "./StatusChart/StatusChart";
 import ExportToExcel from "../ExportToExcel/ExportToExcel";
 import ConsumerWrapper from "../Context/ConsumerWrapper";
-import { IProviderProps } from "src/models/providerProps.model";
+import { IProviderProps } from "../../models/providerProps.model";
 
 class TaskChart extends PureComponent<IProviderProps, {}> {
-  constructor(props: IProviderProps) {
-    super(props);
-  }
-
   render() {
     const { filteredTasks } = this.props;
     return (
