@@ -22,10 +22,10 @@ export class ExportToExcel extends Component<IProps, any> {
     const { tasks } = this.props;
     return (
       <>
-        <button type="button" title="Export PDF" className="download btn p-0" onClick={this.export}>
+        <button type="button" title="Export Excel" className="download btn p-0" onClick={this.export}>
           <i className="fas fa-download" />
         </button>
-        <ExcelExport ref={exporter => (this.exportRef = exporter)}>
+        <ExcelExport fileName={new Date().toLocaleDateString()} ref={exporter => (this.exportRef = exporter)}>
           <ExcelExportColumn field="id" title="ID" locked={true} width={30} />
           <ExcelExportColumn field="name" title="Name" />
           <ExcelExportColumn field="description" title="Description" width={350} />
