@@ -1,0 +1,52 @@
+.k-dialog-titlebar {
+  background: #00c4ff;
+  padding: 12px 20px;
+}
+
+.k-window-content {
+  margin: 0 !important;
+  padding: 24px !important;
+
+  label,
+  input,
+  textarea {
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 113px;
+    margin-top: 10px;
+    border: 1px solid #b9b9b9;
+    padding: 10px;
+  }
+}
+
+.k-numerictextbox {
+  width: 100px;
+  margin-left: 20px;
+  .k-state-invalid {
+    border-top: none;
+    .k-select {
+      color: black !important;
+    }
+  }
+}
+
+.k-animation-container {
+  z-index: 10003;
+}
+
+.k-state-invalid {
+  border-color: rgba(0, 0, 0, 0.42) !important;
+}
+
+.task-form {
+  > div {
+    margin-bottom: 1rem;
+  }
+
+  .status {
+    border: none;
+    font-size: 13px !important;
+  }
+}
