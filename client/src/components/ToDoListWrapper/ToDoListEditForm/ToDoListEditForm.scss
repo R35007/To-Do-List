@@ -21,15 +21,13 @@
   }
 }
 
-.k-numerictextbox {
-  width: 100px;
+.priority {
+  display: inline-block;
+  background: none;
+  border: 1px solid lightgray;
+  height: 26px;
+  width: 50px;
   margin-left: 20px;
-  .k-state-invalid {
-    border-top: none;
-    .k-select {
-      color: black !important;
-    }
-  }
 }
 
 .k-animation-container {

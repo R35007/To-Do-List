@@ -27,7 +27,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
       taskInEdit: undefined,
       deletableTask: undefined,
       skip: 0,
-      sort: [{ field: "priority", dir: "asc" }, { field: "status", dir: "desc" }]
+      sort: [{ field: "priority", dir: "asc" }]
     };
   }
 
@@ -82,7 +82,8 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     return {
       status: "Open",
       openOn: selectedDate.toLocaleString(),
-      openOnTime: convertDateNumberToTime(selectedDate.getTime())
+      openOnTime: convertDateNumberToTime(selectedDate.getTime()),
+      priority: 4
     };
   }
 
@@ -136,6 +137,13 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     return <td>{dataItem[field] && new Date(dataItem[field]).toLocaleDateString()}</td>;
   };
 
+  renderPriority = ({ dataItem, field = "" }: GridCellProps) => {
+    const priorityNum = dataItem[field] && dataItem[field];
+    const priority =
+      priorityNum === 1 ? "H" : priorityNum === 2 ? "M" : priorityNum === 3 ? "L" : "N";
+    return <td>{priority}</td>;
+  };
+
   render() {
     const { taskInEdit, deletableTask, tasks, sort, skip } = this.state;
     const { selectedDate } = this.props;
@@ -158,9 +166,8 @@ class ToDoList extends React.Component<IProviderProps, IState> {
               onPageChange={event => this.setState({ skip: event.page.skip })}
             >
               <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
-              <GridColumn field="name" title="Name" width="100px" />
-              <GridColumn field="description" title="Description" />
-              <GridColumn field="priority" title="P" width="50px" />
+              <GridColumn field="description" title="Summary" />
+              <GridColumn field="priority" title="P" width="50px" cell={this.renderPriority} />
               <GridColumn
                 field="openOnTime"
                 title="Open"
@@ -169,7 +176,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
               />
               <GridColumn
                 field="inProgressOnTime"
-                title="InProgress"
+                title="Progress"
                 width="110px"
                 cell={this.renderShortDate}
               />
@@ -192,7 +199,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
             {deletableTask && (
               <Dialog title={"Please confirm"} onClose={this.cancel}>
                 <p style={{ margin: "25px", textAlign: "center" }}>
-                  Are you sure you want to remove {deletableTask.name} ?
+                  Are you sure you want to remove {deletableTask.id} ?
                 </p>
                 <DialogActionsBar>
                   <button className="k-button" onClick={this.cancel}>

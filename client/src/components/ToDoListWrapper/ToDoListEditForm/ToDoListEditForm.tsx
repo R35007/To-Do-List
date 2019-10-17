@@ -1,6 +1,6 @@
 import React from "react";
 import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
-import { Input, NumericTextBox, NumericTextBoxChangeEvent } from "@progress/kendo-react-inputs";
+import { Input } from "@progress/kendo-react-inputs";
 import { ITask } from "../../../models/task.model";
 import "./ToDoListEditForm.scss";
 import StatusSwitch from "./StatusSwitch";
@@ -38,7 +38,7 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
   }
 
   onDialogInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | NumericTextBoxChangeEvent
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     let target = event.target;
     let value = target.value;
@@ -72,6 +72,7 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
     if (status === Status.DONE) {
       editedTask.doneOn = task.deletedOn || selectedDateStr;
       editedTask.doneOnTime = task.deleteOnTime || selectedDateTime;
+      editedTask.priority = 4;
     } else if (status === Status.OPEN) {
       editedTask.openOn = task.openOn || selectedDateStr;
       editedTask.openOnTime = task.openOnTime || selectedDateTime;
@@ -102,19 +103,6 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
         <form id="task-form" className="task-form" onSubmit={this.handleOnSubmit}>
           <div>
             <label>
-              Task Name
-              <br />
-              <Input
-                required={true}
-                type="text"
-                name="name"
-                value={task.name || ""}
-                onChange={this.onDialogInputChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
               Task Description
               <br />
               <textarea
@@ -130,12 +118,17 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
               <div className="col-4">
                 <label>
                   Priority :
-                  <NumericTextBox
-                    required={true}
+                  <select
                     name="priority"
+                    className="priority"
                     onChange={this.onDialogInputChange}
                     value={task.priority}
-                  />
+                  >
+                    <option value="1">H</option>
+                    <option value="2">M</option>
+                    <option value="3">L</option>
+                    <option value="4">N</option>
+                  </select>
                   <br />
                 </label>
               </div>
