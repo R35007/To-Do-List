@@ -1,6 +1,6 @@
 export interface ITask {
   id: number;
-  description: string;
+  summary: string;
   status: string;
   openOn: string;
   inProgressOn: null | string;

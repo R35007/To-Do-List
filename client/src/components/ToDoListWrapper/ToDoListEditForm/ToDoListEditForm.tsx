@@ -107,8 +107,8 @@ export default class ToDoListEditForm extends React.Component<IProps, IState> {
               <br />
               <textarea
                 required={true}
-                name="description"
-                value={task.description || ""}
+                name="summary"
+                value={task.summary || ""}
                 onChange={this.onDialogInputChange}
               />
             </label>

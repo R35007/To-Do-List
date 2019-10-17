@@ -1,7 +1,6 @@
 export interface ITask {
   id: number;
-  name: string;
-  description: string;
+  summary: string;
   status: string;
   openOn: string;
   inProgressOn: null | string;

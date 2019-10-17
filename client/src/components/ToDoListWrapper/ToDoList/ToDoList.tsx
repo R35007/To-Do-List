@@ -166,7 +166,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
               onPageChange={event => this.setState({ skip: event.page.skip })}
             >
               <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
-              <GridColumn field="description" title="Summary" />
+              <GridColumn field="summary" title="Summary" />
               <GridColumn field="priority" title="P" width="50px" cell={this.renderPriority} />
               <GridColumn
                 field="openOnTime"
