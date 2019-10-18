@@ -1,6 +1,5 @@
 import React from "react";
-import { Grid, GridColumn, GridCellProps, GridRowClickEvent } from "@progress/kendo-react-grid";
-import ToDoListEditForm from "../ToDoListEditForm/ToDoListEditForm";
+import { Grid, GridColumn, GridCellProps } from "@progress/kendo-react-grid";
 import { ITask } from "../../../models/task.model";
 import axios from "axios";
 import "./ToDoList.scss";
@@ -9,6 +8,8 @@ import { Dialog, DialogActionsBar } from "@progress/kendo-react-dialogs";
 import { orderBy, SortDescriptor } from "@progress/kendo-data-query";
 import { IProviderProps } from "../../../models/providerProps.model";
 import { convertDateNumberToTime } from "../../../assets/utils/utils";
+import { MyCommandCell } from "./MyCommandCell";
+import { StatusSwitch } from "./StatusSwitch";
 
 interface IState {
   tasks: ITask[];
@@ -19,32 +20,101 @@ interface IState {
 }
 
 class ToDoList extends React.Component<IProviderProps, IState> {
+  commandCell;
   constructor(props: IProviderProps) {
     super(props);
 
     this.state = {
-      tasks: this.props.filteredTasks,
-      taskInEdit: undefined,
+      tasks: [...this.props.filteredTasks],
       deletableTask: undefined,
       skip: 0,
+      taskInEdit: undefined,
       sort: [{ field: "priority", dir: "asc" }]
     };
+
+    this.commandCell = MyCommandCell({
+      edit: this.edit,
+      add: this.add,
+      update: this.update,
+      confirm: this.confirm,
+      discard: this.discard,
+      cancel: this.cancel
+    });
   }
 
   componentWillReceiveProps(nextProps: IProviderProps) {
     this.setState({
-      tasks: nextProps.filteredTasks
+      tasks: [...nextProps.filteredTasks],
+      taskInEdit: undefined
     });
   }
 
-  edit = ({ dataItem }: GridRowClickEvent) => {
-    this.setState({ taskInEdit: { ...dataItem } });
+  onChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    let target = event.target;
+    let value: any = target.value;
+    const name = target.name || "";
+    if (name === "priority") {
+      value = parseInt(value);
+    }
+    const edited = this.state.taskInEdit!;
+    edited[name] = value;
+
+    this.setState({
+      taskInEdit: edited
+    });
+  };
+
+  onStatusChange = (status: string) => {
+    const { selectedDate, tasks } = this.props;
+    const editedTask = this.state.taskInEdit!;
+
+    const index = tasks.findIndex(task => task.id === editedTask.id);
+    const selectedTask = { ...tasks[index] } || {};
+
+    const selectedDateStr = selectedDate.toLocaleString();
+    const selectedDateTime = convertDateNumberToTime(selectedDate.getTime());
+    editedTask.status = status;
+    if (status === Status.DONE) {
+      editedTask.inProgressOn = selectedTask.inProgressOn || selectedDateStr;
+      editedTask.inProgressOnTime = selectedTask.inProgressOnTime || selectedDateTime;
+      editedTask.doneOn = selectedTask.deletedOn || selectedDateStr;
+      editedTask.doneOnTime = selectedTask.deleteOnTime || selectedDateTime;
+      editedTask.priority = 4;
+    } else if (status === Status.OPEN) {
+      editedTask.openOn = selectedTask.openOn || selectedDateStr;
+      editedTask.openOnTime = selectedTask.openOnTime || selectedDateTime;
+      delete editedTask.inProgressOn;
+      delete editedTask.inProgressOnTime;
+      delete editedTask.doneOn;
+      delete editedTask.doneOnTime;
+    } else {
+      editedTask.inProgressOn = selectedTask.inProgressOn || selectedDateStr;
+      editedTask.inProgressOnTime = selectedTask.inProgressOnTime || selectedDateTime;
+      delete editedTask.doneOn;
+      delete editedTask.doneOnTime;
+    }
+    this.setState({
+      taskInEdit: editedTask
+    });
+  };
+
+  edit = (dataItem: ITask) => {
+    let { tasks, taskInEdit } = this.state;
+    if (!taskInEdit) {
+      taskInEdit = { ...dataItem };
+      const index = tasks.findIndex(task => task.id === dataItem.id);
+      dataItem.inEdit = true;
+      tasks[index] = dataItem;
+      this.setState({ tasks, taskInEdit });
+    }
   };
 
   remove = (dataItem: ITask) => {
     const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
     dataItem.deletedOn = selectedDate.toLocaleString();
     dataItem.deleteOnTime = selectedDate.getTime();
+    console.log(dataItem);
+
     axios
       .delete("tasks", { data: dataItem })
       .then(() => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
@@ -52,58 +122,83 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     this.cancel();
   };
 
-  save = (task: ITask) => {
-    const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
+  confirm = (dataItem: ITask) => {
+    this.setState({ deletableTask: dataItem });
+  };
 
-    if (task.id) {
-      axios
-        .put("tasks", task)
-        .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
-        .catch(err => console.log(err));
-    } else {
-      axios
-        .post("tasks", task)
-        .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
-        .catch(err => console.log(err));
+  addNew = () => {
+    const newDataItem = this.newTask();
+    const taskInEdit = { ...newDataItem };
+    delete taskInEdit.inEdit;
+    this.setState({
+      tasks: [newDataItem, ...this.state.tasks],
+      taskInEdit
+    });
+  };
+
+  discard = dataItem => {
+    const tasks = [...this.state.tasks];
+    this.removeItem(tasks, dataItem);
+    this.setState({ tasks, taskInEdit: undefined });
+  };
+
+  removeItem(data, item) {
+    let index = data.findIndex(p => p === item || (item.ProductID && p.ProductID === item.ProductID));
+    if (index >= 0) {
+      data.splice(index, 1);
     }
+  }
+
+  isStatusEditable = () => {
+    const editedTask = this.state.taskInEdit!;
+    const { selectedDate } = this.props;
+    const selectedDateTime = convertDateNumberToTime(selectedDate.getTime());
+
+    const { openOnTime, inProgressOnTime = 0 } = editedTask;
+
+    return !(selectedDateTime < openOnTime) && !(selectedDateTime < inProgressOnTime);
+  };
+
+  add = () => {
+    const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
+    const task = this.state.taskInEdit!;
     this.cancel();
+    axios
+      .post("tasks", task)
+      .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
+      .catch(err => console.log(err));
+  };
+
+  update = () => {
+    const { isViewAll, selectedDate, getTasks, getAllTasks } = this.props;
+    const task = this.state.taskInEdit!;
+    this.cancel();
+    axios
+      .put("tasks", task)
+      .then(_res => (isViewAll ? getAllTasks() : getTasks(selectedDate)))
+      .catch(err => console.log(err));
   };
 
   cancel = () => {
-    this.setState({ taskInEdit: undefined, deletableTask: undefined });
+    const { tasks } = this.state;
+    const data = tasks.map(task => {
+      delete task.inEdit;
+      return task;
+    });
+    this.setState({ tasks: data, taskInEdit: undefined, deletableTask: undefined });
   };
 
-  insert = () => {
-    this.setState({ taskInEdit: this.newTask() as ITask });
-  };
-
-  newTask() {
+  newTask(): ITask {
     const { selectedDate } = this.props;
     return {
+      summary: "",
       status: "Open",
       openOn: selectedDate.toLocaleString(),
       openOnTime: convertDateNumberToTime(selectedDate.getTime()),
-      priority: 4
-    };
+      priority: 1,
+      inEdit: true
+    } as ITask;
   }
-
-  renderStatus = ({ dataItem }: GridCellProps) => {
-    const className =
-      "status btn text-white rounded " +
-      (dataItem.status === Status.OPEN
-        ? "bg-info"
-        : dataItem.status === Status.INPROGRESS
-        ? "bg-warning"
-        : "bg-success");
-    return (
-      <td className="position-relative">
-        <span className={className}>{dataItem.status}</span>
-        <button className="remove btn" onClick={() => this.setState({ deletableTask: dataItem })}>
-          <i className="fas fa-calendar-times" />
-        </button>
-      </td>
-    );
-  };
 
   renderCurrentStatus = ({ dataItem }: GridCellProps) => {
     const { inProgressOnTime = 0, doneOnTime = 0, openOnTime } = dataItem;
@@ -133,20 +228,63 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     );
   };
 
-  renderShortDate = ({ dataItem, field = "" }: GridCellProps) => {
-    return <td>{dataItem[field] && new Date(dataItem[field]).toLocaleDateString()}</td>;
+  renderSummary = ({ dataItem }: GridCellProps) => {
+    const taskInEdit = this.state.taskInEdit!;
+    const inEdit = dataItem.inEdit;
+
+    const cell = inEdit ? <textarea name="summary" required value={taskInEdit.summary} onChange={this.onChangeHandler}></textarea> : dataItem.summary;
+    return <td>{cell}</td>;
   };
 
-  renderPriority = ({ dataItem, field = "" }: GridCellProps) => {
-    const priorityNum = dataItem[field] && dataItem[field];
-    const priority =
-      priorityNum === 1 ? "H" : priorityNum === 2 ? "M" : priorityNum === 3 ? "L" : "N";
-    return <td>{priority}</td>;
+  renderPriority = ({ dataItem }: GridCellProps) => {
+    const taskInEdit = this.state.taskInEdit!;
+    const priorityNum = dataItem.priority && dataItem.priority;
+    const priority = priorityNum === 1 ? "H" : priorityNum === 2 ? "M" : priorityNum === 3 ? "L" : "N";
+    const inEdit = dataItem.inEdit;
+
+    const cell = inEdit ? (
+      <select name="priority" value={taskInEdit.priority} onChange={this.onChangeHandler}>
+        <option value="1">H</option>
+        <option value="2">M</option>
+        <option value="3">L</option>
+        <option value="4">N</option>
+      </select>
+    ) : (
+      priority
+    );
+    return <td>{cell}</td>;
+  };
+
+  renderShortDate = ({ dataItem, field = "" }: GridCellProps) => {
+    const inEdit = dataItem.inEdit;
+    const taskInEdit = this.state.taskInEdit;
+
+    const taskInEditDate = taskInEdit && taskInEdit[field] ? new Date(taskInEdit[field]).toLocaleDateString() : "";
+    const statusDate = dataItem[field] ? new Date(dataItem[field]).toLocaleDateString() : "";
+
+    const cell = inEdit ? taskInEditDate : statusDate;
+    return <td>{cell}</td>;
+  };
+
+  renderStatus = ({ dataItem }: GridCellProps) => {
+    const taskInEdit = this.state.taskInEdit!;
+    const className =
+      "status btn text-white rounded " +
+      (dataItem.status === Status.OPEN ? "bg-info" : dataItem.status === Status.INPROGRESS ? "bg-warning" : "bg-success");
+    const inEdit = dataItem.inEdit;
+
+    const cell = inEdit ? (
+      <StatusSwitch status={taskInEdit.status} onChange={this.onStatusChange} isStatusEditable={this.isStatusEditable} />
+    ) : (
+      <span className={className}>{dataItem.status}</span>
+    );
+
+    return <td>{cell}</td>;
   };
 
   render() {
-    const { taskInEdit, deletableTask, tasks, sort, skip } = this.state;
-    const { selectedDate } = this.props;
+    const { deletableTask, tasks, sort, skip, taskInEdit } = this.state;
+    const isAddDisabled = typeof taskInEdit === "object";
     return (
       <div className="row m-0" style={{ height: "calc(100% - 40px)" }}>
         <div className="col h-100 p-0" style={{ position: "static" }}>
@@ -160,47 +298,22 @@ class ToDoList extends React.Component<IProviderProps, IState> {
               skip={skip}
               sort={sort}
               onSortChange={e => this.setState({ sort: e.sort })}
-              onRowClick={this.edit}
               scrollable={"virtual"}
               style={{ height: "100%" }}
               onPageChange={event => this.setState({ skip: event.page.skip })}
             >
               <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
-              <GridColumn field="summary" title="Summary" />
-              <GridColumn field="priority" title="P" width="50px" cell={this.renderPriority} />
-              <GridColumn
-                field="openOnTime"
-                title="Open"
-                width="110px"
-                cell={this.renderShortDate}
-              />
-              <GridColumn
-                field="inProgressOnTime"
-                title="Progress"
-                width="110px"
-                cell={this.renderShortDate}
-              />
-              <GridColumn
-                field="doneOnTime"
-                title="Done"
-                width="110px"
-                cell={this.renderShortDate}
-              />
+              <GridColumn field="summary" title="Summary" cell={this.renderSummary} />
+              <GridColumn field="priority" title="P" width="70px" cell={this.renderPriority} />
               <GridColumn field="status" title="Status" width="130px" cell={this.renderStatus} />
+              <GridColumn field="openOnTime" title="Open" width="100px" cell={this.renderShortDate} />
+              <GridColumn field="inProgressOnTime" title="Progress" width="100px" cell={this.renderShortDate} />
+              <GridColumn field="doneOnTime" title="Done" width="100px" cell={this.renderShortDate} />
+              <GridColumn width="150px" cell={this.commandCell} />
             </Grid>
-            {taskInEdit && (
-              <ToDoListEditForm
-                task={taskInEdit}
-                selectedDate={selectedDate}
-                save={this.save}
-                cancel={this.cancel}
-              />
-            )}
             {deletableTask && (
               <Dialog title={"Please confirm"} onClose={this.cancel}>
-                <p style={{ margin: "25px", textAlign: "center" }}>
-                  Are you sure you want to remove {deletableTask.id} ?
-                </p>
+                <p style={{ margin: "25px", textAlign: "center" }}>Are you sure you want to remove {deletableTask.id} ?</p>
                 <DialogActionsBar>
                   <button className="k-button" onClick={this.cancel}>
                     No
@@ -211,7 +324,7 @@ class ToDoList extends React.Component<IProviderProps, IState> {
                 </DialogActionsBar>
               </Dialog>
             )}
-            <button onClick={this.insert} className="add btn rounded-circle">
+            <button onClick={this.addNew} disabled={isAddDisabled} className="add btn rounded-circle">
               <i className="fas fa-plus" />
             </button>
           </div>

@@ -11,4 +11,5 @@ export interface ITask {
   doneOnTime: undefined | number;
   deleteOnTime: undefined | number;
   priority: number;
+  inEdit: boolean;
 }

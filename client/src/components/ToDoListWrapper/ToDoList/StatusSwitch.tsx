@@ -7,14 +7,14 @@ interface IProps {
   isStatusEditable(): boolean;
 }
 
-function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
+export function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
   switch (status) {
     case Status.DONE:
       return (
         <button
           type="button"
           onClick={() => onChange(Status.OPEN)}
-          className="status btn bg-success text-white ml-3 rounded"
+          className="status btn bg-success text-white rounded"
           disabled={!isStatusEditable()}
         >
           {Status.DONE}
@@ -25,7 +25,7 @@ function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
         <button
           type="button"
           onClick={() => onChange(Status.DONE)}
-          className="status btn bg-warning text-white ml-3 rounded"
+          className="status btn bg-warning text-white rounded"
           disabled={!isStatusEditable()}
         >
           {Status.INPROGRESS}
@@ -36,7 +36,7 @@ function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
         <button
           type="button"
           onClick={() => onChange(Status.INPROGRESS)}
-          className="status btn bg-info text-white ml-3 rounded"
+          className="status btn bg-info text-white rounded"
           disabled={!isStatusEditable()}
         >
           {Status.OPEN}
@@ -44,5 +44,3 @@ function StatusSwitch({ status, onChange, isStatusEditable }: IProps) {
       );
   }
 }
-
-export default StatusSwitch;

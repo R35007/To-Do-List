@@ -8,14 +8,12 @@ import ToDoListWrapper from "./components/ToDoListWrapper/ToDoListWrapper";
 import TaskChart from "./components/TaskChart/TaskChart";
 import ProviderWrapper from "./components//Context/ProviderWrapper";
 
-class App extends React.Component{
+class App extends React.Component {
   public render() {
     return (
       <div className="container-fluid pane-content p-0">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <span className="navbar-brand">
-            What To Do
-          </span>
+          <span className="navbar-brand">What To Do</span>
         </nav>
         <main>
           <ToDoListWrapper />
