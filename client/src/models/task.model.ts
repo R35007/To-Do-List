@@ -1,6 +1,6 @@
 export interface ITask {
   id: number;
-  description: string;
+  summary: string;
   status: string;
   openOn: string;
   inProgressOn: null | string;
@@ -11,4 +11,5 @@ export interface ITask {
   doneOnTime: undefined | number;
   deleteOnTime: undefined | number;
   priority: number;
+  inEdit: boolean;
 }
