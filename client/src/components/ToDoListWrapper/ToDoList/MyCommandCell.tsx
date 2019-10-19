@@ -10,7 +10,7 @@ export function MyCommandCell({ edit, add, update, confirm, discard, cancel }) {
       const isNewItem = dataItem.id === undefined;
 
       return inEdit ? (
-        <td className="k-command-cell">
+        <td className="k-grid-content-sticky" style={{left: "0px", right: "0px", borderRightWidth: "1px"}}>
           <Button type="submit" primary={true} className="k-button k-grid-save-command" onClick={() => (isNewItem ? add() : update())}>
             {isNewItem ? "Add" : "Update"}
           </Button>
@@ -19,7 +19,7 @@ export function MyCommandCell({ edit, add, update, confirm, discard, cancel }) {
           </Button>
         </td>
       ) : (
-        <td className="k-command-cell">
+        <td className="k-grid-content-sticky" style={{left: "0px", right: "0px", borderRightWidth: "1px"}}>
           <Button type="button" primary={true} onClick={() => edit(dataItem)}>
             Edit
           </Button>

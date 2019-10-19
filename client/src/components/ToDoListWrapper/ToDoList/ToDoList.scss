@@ -54,6 +54,21 @@
     font-size: 13px;
     line-height: 19px;
   }
+  
+  .dead-line-picker-div{
+    .dead-line-picker{
+      input{
+        font-size: 14px;
+      }
+    }
+    >i{
+      opacity: 0.3;
+      cursor: pointer;
+      &:hover{
+        opacity: 0.5;
+      }
+    }
+  }
 
   .add {
     background: #00c4ff;

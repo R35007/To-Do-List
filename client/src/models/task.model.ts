@@ -6,6 +6,8 @@ export interface ITask {
   inProgressOn: null | string;
   doneOn: undefined | string;
   deletedOn: undefined | string;
+  deadLine: undefined | string;
+  deadLineTime: undefined | number;
   openOnTime: number;
   inProgressOnTime: undefined | number;
   doneOnTime: undefined | number;

@@ -9,7 +9,9 @@ import { orderBy, SortDescriptor } from "@progress/kendo-data-query";
 import { IProviderProps } from "../../../models/providerProps.model";
 import { convertDateNumberToTime } from "../../../assets/utils/utils";
 import { MyCommandCell } from "./MyCommandCell";
+import { DeadLineChart } from "../DeadLineChart/DeadLineChart";
 import { StatusSwitch } from "./StatusSwitch";
+import { DatePicker, DatePickerChangeEvent } from "@progress/kendo-react-dateinputs";
 
 interface IState {
   tasks: ITask[];
@@ -21,6 +23,7 @@ interface IState {
 
 class ToDoList extends React.Component<IProviderProps, IState> {
   commandCell;
+  deadLineCell;
   constructor(props: IProviderProps) {
     super(props);
 
@@ -40,6 +43,8 @@ class ToDoList extends React.Component<IProviderProps, IState> {
       discard: this.discard,
       cancel: this.cancel
     });
+
+    this.deadLineCell = DeadLineChart();
   }
 
   componentWillReceiveProps(nextProps: IProviderProps) {
@@ -96,6 +101,25 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     this.setState({
       taskInEdit: editedTask
     });
+  };
+
+  onDeadLineChange = ({ value }: DatePickerChangeEvent) => {
+    if (value) {
+      const taskInEdit = this.state.taskInEdit!;
+      taskInEdit.deadLineTime = value.getTime();
+      taskInEdit.deadLine = value.toLocaleString();
+
+      this.setState({
+        taskInEdit
+      });
+    }
+  };
+
+  clearDeadLine = () => {
+    const taskInEdit = this.state.taskInEdit!;
+    delete taskInEdit.deadLine;
+    delete taskInEdit.deadLineTime;
+    this.setState({ taskInEdit });
   };
 
   edit = (dataItem: ITask) => {
@@ -282,6 +306,29 @@ class ToDoList extends React.Component<IProviderProps, IState> {
     return <td>{cell}</td>;
   };
 
+  renderDeadLine = ({ dataItem }: GridCellProps) => {
+    const inEdit = dataItem.inEdit;
+    const taskInEdit = this.state.taskInEdit;
+    const deadLine = taskInEdit && taskInEdit.deadLineTime ? new Date(taskInEdit.deadLineTime) : undefined;
+    const deadLineStr = dataItem.deadLine ? new Date(dataItem.deadLineTime).toLocaleDateString() : "";
+    const cell = inEdit ? (
+      <div className="dead-line-picker-div d-flex align-items-center">
+        <DatePicker
+          width="100%"
+          className="dead-line-picker"
+          format="dd/MM/yyyy"
+          value={deadLine}
+          formatPlaceholder="formatPattern"
+          onChange={this.onDeadLineChange}
+        />
+        <i className="fas fa-times p-1" onClick={this.clearDeadLine} />
+      </div>
+    ) : (
+      deadLineStr
+    );
+    return <td>{cell}</td>;
+  };
+
   render() {
     const { deletableTask, tasks, sort, skip, taskInEdit } = this.state;
     const isAddDisabled = typeof taskInEdit === "object";
@@ -303,13 +350,15 @@ class ToDoList extends React.Component<IProviderProps, IState> {
               onPageChange={event => this.setState({ skip: event.page.skip })}
             >
               <GridColumn field="id" title="Id" width="90px" cell={this.renderCurrentStatus} />
-              <GridColumn field="summary" title="Summary" cell={this.renderSummary} />
+              <GridColumn field="summary" title="Summary" width="300px" cell={this.renderSummary} />
               <GridColumn field="priority" title="P" width="70px" cell={this.renderPriority} />
-              <GridColumn field="status" title="Status" width="130px" cell={this.renderStatus} />
+              <GridColumn field="status" title="Status" width="100px" cell={this.renderStatus} />
+              <GridColumn field="deadLine" title="DeadLine" width="120px" cell={this.renderDeadLine} />
+              <GridColumn title="Remaining" width="150px" cell={this.deadLineCell} />
               <GridColumn field="openOnTime" title="Open" width="100px" cell={this.renderShortDate} />
               <GridColumn field="inProgressOnTime" title="Progress" width="100px" cell={this.renderShortDate} />
               <GridColumn field="doneOnTime" title="Done" width="100px" cell={this.renderShortDate} />
-              <GridColumn width="150px" cell={this.commandCell} />
+              <GridColumn width="150px" cell={this.commandCell} locked={true} />
             </Grid>
             {deletableTask && (
               <Dialog title={"Please confirm"} onClose={this.cancel}>
