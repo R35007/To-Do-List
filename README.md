@@ -1,49 +1,157 @@
 # To-Do-List
 
-A simple Tool which helps to track your daily task status. 
+> Cant't track your tasks. Then you must know **`What To Do`**
+
+A simple Tool which helps to track your daily task status and helps to remember what thing you have next in ypur pipline.
 You could prioritize your task and also can set the status to open, inprogress and done.
+Know your target and act accordingly.
 You can also allocate a future task to your list.
 A simple dashboard is available to view the today and overall task reports.
+Export the table data to Excel Report.
 
-This tool is built upon the react js and node js. 
-The data are stored as a json file for read and write operation. 
-In the upcomming version I will go with firebase to store the data and host this application online so that any one can use.
+## Table of Contents
 
-### Setup Steps :
+- [Setup](#Setup)
+- [How does it work?](#How-does-it-work?)
+- [Available Scripts](#available-scripts)
+  - [npm install](#npm-install)
+  - [npm start](#npm-start)
+  - [npm test](#npm-test)
+  - [npm run clean](#npm-run-clean)
+  - [npm run server](#npm-run-server)
+  - [npm run client](#npm-run-client)
+  - [npm run reinstall](#npm-run-reinstall)
+- [Built With](#Built-With)
+- [Author](#Author)
+- [Contributing](#Contributing)
+- [Sample Screenshots](#Sample-Screenshots)
+  - [Landing Pages](#Landing-Page)
+  - [Edit Task](#Edit-Task)
+  - [Add New Task](#Add-New-Task)
+  - [Remove Task](#Remove-Task)
+  - [Track Your Deadline](#Track-Your-Deadline)
+  - [View More Detail](#View-More-Detail)
 
-- Step 1 : **"git clone <a href="https://github.com/R35007/To-Do-List.git">https://github.com/R35007/To-Do-List.git</a>"**  to clone the repo or you can download as a zip
-- Step 2 : go to the project folder in terminal and give **"npm run dev-i"** to install the dependencies.
-- Step 3 : once the instalation is complete give **"npm start"** to start the application
-- Step 4 : The defalut browser will automatically opens and runs the application, if not go to any browser and give             **"<a href="http://localhost:3000/">http://localhost:3000/</a>"** to run the application on the browser
+## Setup
 
-### Sample Screenshots : 
+A step by step series of examples that tell you how to get a development env running
 
-Landing Page :
+clone the Repo :
 
-<a href="https://user-images.githubusercontent.com/23217228/66892813-43d6ca80-f00a-11e9-9e24-4cf72baabdd5.png"><img width="1440" alt="Landing Page" src="https://user-images.githubusercontent.com/23217228/66892813-43d6ca80-f00a-11e9-9e24-4cf72baabdd5.png"></a>
+```
+git clone https://github.com/R35007/To-Do-List.git
+```
 
-Add or Edit View :
+go to root directory and run:
 
-<a href="https://user-images.githubusercontent.com/23217228/66892901-784a8680-f00a-11e9-9c21-9dcf3ac1c1ce.png"><img width="1440" alt="Add or Edit View" src="https://user-images.githubusercontent.com/23217228/66892901-784a8680-f00a-11e9-9c21-9dcf3ac1c1ce.png"></a>
+```
+npm install
+```
 
-View All Tasks :
+once the installation is complete and run:
 
-<a href="https://user-images.githubusercontent.com/23217228/66892963-9b753600-f00a-11e9-81b0-cfa884a84dc2.png"><img width="1440" alt="View All Tasks" src="https://user-images.githubusercontent.com/23217228/66892963-9b753600-f00a-11e9-81b0-cfa884a84dc2.png"></a>
+```
+npm start
+```
 
-Calendar :
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-<a href="https://user-images.githubusercontent.com/23217228/66893042-c6f82080-f00a-11e9-9d18-5ed7e0b050b6.png"><img width="1440" alt="Calendar" src="https://user-images.githubusercontent.com/23217228/66893042-c6f82080-f00a-11e9-9d18-5ed7e0b050b6.png"></a>
+## How does it work?
 
-Filter View :
+Inside the root directory we have two applications written in TypeScript.
 
-<a href="https://user-images.githubusercontent.com/23217228/66893121-f3ac3800-f00a-11e9-878c-491c85c0f2fb.png"><img width="1439" alt="Filter View" src="https://user-images.githubusercontent.com/23217228/66893121-f3ac3800-f00a-11e9-878c-491c85c0f2fb.png"></a>
+The `server/` -directory's contents are for the
+backend part of the application, i.e. if you want to do filesystem
+changes or other things that require IPC between the backend and the browser
+windows.
 
-Remove View :
+The `client/` -directory's contents are for the
+frontend part of the application, anything visible to the end-user.
 
-<a href="https://user-images.githubusercontent.com/23217228/66893180-13436080-f00b-11e9-8254-611c6a5149d7.png"><img width="1440" alt="Remove View" src="https://user-images.githubusercontent.com/23217228/66893180-13436080-f00b-11e9-8254-611c6a5149d7.png"></a>
+The `assets/tasks.json` -contains the tasks which are saved by the end-user.
 
-Please give your suggestions and feedback.
+## Available Scripts
 
-Thanks & regards,
-Siva
+In the project directory, you can run:
 
+### `npm install`
+
+Install the dependencies needed for both the Client and Server<br>
+
+### `npm start`
+
+Runs the bothe the server and client app concurrently in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
+
+### `npm run clean`
+
+Removes all the node_modules which are available in the Clinet , Server and the root directory.
+
+### `npm run server`
+
+Runs the server side of the application
+
+### `npm run clinet`
+
+Runs the client side of the application
+
+### `npm run reinstall`
+
+Cleans the node_modules and reinstalls the dependencies for both client ans server.
+
+## Built With
+
+- React
+- TypeScript
+- SASS with node-sass
+- Kendo UI
+- Bootstrap
+- Lodash
+- Express
+- OvernightJS
+
+## Author
+
+**Sivaraman** - [Mycount.siva@gmail.com](Mycount.siva@gmail.com)
+
+Distributed under the MIT license.
+
+[https://github.com/R35007](https://github.com/R35007)
+
+## Contributing
+
+1. Fork it (<https://github.com/R35007/To-Do-List/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
+
+## Sample Screenshots :
+
+#### `Landing Page` :
+
+<a href="https://user-images.githubusercontent.com/23217228/67146175-1c039300-f2a6-11e9-84d7-3c7d65f3803c.png" ><img width="100%" alt="Landing Page" src="https://user-images.githubusercontent.com/23217228/67146175-1c039300-f2a6-11e9-84d7-3c7d65f3803c.png"></a>
+
+#### `Edit Task` :
+
+<a href="https://user-images.githubusercontent.com/23217228/67147071-fe86f700-f2ae-11e9-81a0-8bc8ec64496b.png"><img width="100%" alt="Edit Task" src="https://user-images.githubusercontent.com/23217228/67147071-fe86f700-f2ae-11e9-81a0-8bc8ec64496b.png"></a>
+
+#### `Add New Task` :
+
+<a href="https://user-images.githubusercontent.com/23217228/67147097-4b6acd80-f2af-11e9-846a-0e3974e34ffe.png"><img width="100%" alt="Add New Task" src="https://user-images.githubusercontent.com/23217228/67147097-4b6acd80-f2af-11e9-846a-0e3974e34ffe.png"></a>
+
+#### `Remove Task` :
+
+<a href="https://user-images.githubusercontent.com/23217228/67147110-6a695f80-f2af-11e9-9d8a-47f72a4a9468.png"><img width="100%" alt="Remove Task" src="https://user-images.githubusercontent.com/23217228/67147110-6a695f80-f2af-11e9-9d8a-47f72a4a9468.png"></a>
+
+#### `Track Your Deadline` :
+
+<a href="https://user-images.githubusercontent.com/23217228/67147127-9553b380-f2af-11e9-841b-fc229f0d175e.png"><img width="100%" alt="rack Your Deadline" src="https://user-images.githubusercontent.com/23217228/67147127-9553b380-f2af-11e9-841b-fc229f0d175e.png">
+</a>
+
+#### `View More Detail`
+
+<a href="https://user-images.githubusercontent.com/23217228/67147144-c59b5200-f2af-11e9-8592-a4b1e382d54b.png"><img width="1440" alt="View More Detail" src="https://user-images.githubusercontent.com/23217228/67147144-c59b5200-f2af-11e9-8592-a4b1e382d54b.png"></a>
