@@ -117,7 +117,7 @@ Cleans the node_modules and reinstalls the dependencies for both client ans serv
 
 ## Author
 
-**Sivaraman** - [Mycount.siva@gmail.com](Mycount.siva@gmail.com)
+**Sivaraman** - Mycount.siva@gmail.com
 
 Distributed under the MIT license.
 
