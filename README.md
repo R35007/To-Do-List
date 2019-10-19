@@ -3,9 +3,11 @@
 > Cant't track your tasks. Then you must know **`What To Do`**
 
 **`What To Do`** is simple Tool which helps to track your daily task status and helps to remember what thing you have next in ypur pipline.
-You could prioritize your task and also can set the status to open, inprogress and done.
+
+You could prioritize your task and can also set the status to open, inprogress and done.
 Know your target and act accordingly.
 You can also allocate a future task to your list.
+
 A simple dashboard is available to view the today and overall task reports.
 Export the table data to Excel Report.
 
