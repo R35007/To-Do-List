@@ -156,4 +156,4 @@ Distributed under the MIT license.
 
 #### `View More Detail`
 
-<a href="https://user-images.githubusercontent.com/23217228/67147144-c59b5200-f2af-11e9-8592-a4b1e382d54b.png"><img width="1440" alt="View More Detail" src="https://user-images.githubusercontent.com/23217228/67147144-c59b5200-f2af-11e9-8592-a4b1e382d54b.png"></a>
+<a href="https://user-images.githubusercontent.com/23217228/67147144-c59b5200-f2af-11e9-8592-a4b1e382d54b.png"><img width="100%" alt="View More Detail" src="https://user-images.githubusercontent.com/23217228/67147144-c59b5200-f2af-11e9-8592-a4b1e382d54b.png"></a>
