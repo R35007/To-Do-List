@@ -1,4 +1,4 @@
-# To-Do-List
+# What-To-Do
 
 > Cant't track your tasks. Then you must know **`What To Do`**
 
@@ -41,7 +41,7 @@ A step by step series of examples that tell you how to get a development env run
 clone the Repo :
 
 ```
-git clone https://github.com/R35007/To-Do-List.git
+git clone https://github.com/R35007/What-To-Do.git
 ```
 
 go to root directory and run:
@@ -125,7 +125,7 @@ Distributed under the MIT license.
 
 ## Contributing
 
-1. Fork it (<https://github.com/R35007/To-Do-List/fork>)
+1. Fork it (<https://github.com/R35007/What-To-Do/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
