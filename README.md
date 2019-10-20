@@ -1,10 +1,10 @@
 # What-To-Do
 
-> Cant't track your tasks. Then you must know **`What To Do`**
+> Cannot track your tasks. Then you must know **`What To Do`**
 
-**`What To Do`** is simple Tool which helps to track your daily task status and helps to remember what thing you have next in ypur pipline.
+**`What To Do`** is simple Tool which helps to track your daily task status and helps to remember what thing you have next in your pipeline.
 
-You could prioritize your task and can also set the status to open, inprogress and done.
+You could prioritize your task and can also set the status to open, in progress and done.
 Know your target and act accordingly.
 You can also allocate a future task to your list.
 
@@ -18,7 +18,6 @@ Export the table data to Excel Report.
 - [Available Scripts](#available-scripts)
   - [npm install](#npm-install)
   - [npm start](#npm-start)
-  - [npm test](#npm-test)
   - [npm run clean](#npm-run-clean)
   - [npm run server](#npm-run-server)
   - [npm run client](#npm-run-client)
@@ -82,7 +81,7 @@ Install the dependencies needed for both the Client and Server<br>
 
 ### `npm start`
 
-Runs the bothe the server and client app concurrently in the development mode.<br>
+Runs the both the server and client app concurrently in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
@@ -90,13 +89,13 @@ You will also see any lint errors in the console.
 
 ### `npm run clean`
 
-Removes all the node_modules which are available in the Clinet , Server and the root directory.
+Removes all the node_modules which are available in the Client , Server and the root directory.
 
 ### `npm run server`
 
 Runs the server side of the application
 
-### `npm run clinet`
+### `npm run client`
 
 Runs the client side of the application
 
@@ -131,25 +130,25 @@ Distributed under the MIT license.
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
-## Sample Screenshots :
+## Sample Screenshots
 
-#### `Landing Page` :
+#### `Landing Page`
 
 <a href="https://user-images.githubusercontent.com/23217228/67146175-1c039300-f2a6-11e9-84d7-3c7d65f3803c.png" ><img width="100%" alt="Landing Page" src="https://user-images.githubusercontent.com/23217228/67146175-1c039300-f2a6-11e9-84d7-3c7d65f3803c.png"></a>
 
-#### `Edit Task` :
+#### `Edit Task`
 
 <a href="https://user-images.githubusercontent.com/23217228/67147071-fe86f700-f2ae-11e9-81a0-8bc8ec64496b.png"><img width="100%" alt="Edit Task" src="https://user-images.githubusercontent.com/23217228/67147071-fe86f700-f2ae-11e9-81a0-8bc8ec64496b.png"></a>
 
-#### `Add New Task` :
+#### `Add New Task`
 
 <a href="https://user-images.githubusercontent.com/23217228/67147097-4b6acd80-f2af-11e9-846a-0e3974e34ffe.png"><img width="100%" alt="Add New Task" src="https://user-images.githubusercontent.com/23217228/67147097-4b6acd80-f2af-11e9-846a-0e3974e34ffe.png"></a>
 
-#### `Remove Task` :
+#### `Remove Task`
 
 <a href="https://user-images.githubusercontent.com/23217228/67147110-6a695f80-f2af-11e9-9d8a-47f72a4a9468.png"><img width="100%" alt="Remove Task" src="https://user-images.githubusercontent.com/23217228/67147110-6a695f80-f2af-11e9-9d8a-47f72a4a9468.png"></a>
 
-#### `Track Your Deadline` :
+#### `Track Your Deadline`
 
 <a href="https://user-images.githubusercontent.com/23217228/67147127-9553b380-f2af-11e9-841b-fc229f0d175e.png"><img width="100%" alt="rack Your Deadline" src="https://user-images.githubusercontent.com/23217228/67147127-9553b380-f2af-11e9-841b-fc229f0d175e.png">
 </a>
