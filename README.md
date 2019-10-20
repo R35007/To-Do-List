@@ -14,7 +14,7 @@ Export the table data to Excel Report.
 ## Table of Contents
 
 - [Setup](#Setup)
-- [How does it work?](#How-does-it-work?)
+- [How does it work?](#How-does-it-work)
 - [Available Scripts](#available-scripts)
   - [npm install](#npm-install)
   - [npm start](#npm-start)
