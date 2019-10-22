@@ -1,7 +1,6 @@
 import React from "react";
 import { GridCell } from "@progress/kendo-react-grid";
 import {
-  Sparkline,
   ChartValueAxis,
   ChartValueAxisItem,
   ChartTooltip,
