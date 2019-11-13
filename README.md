@@ -2,18 +2,14 @@
 
 > Cannot track your tasks. Then you must know **`What To Do`**
 
-**`What To Do`** is simple Tool which helps to track your daily task status and helps to remember what thing you have next in your pipeline.
+**`What To Do`**  is a tool which helps you to track your daily task and its status. 
 
-You could prioritize your task and can also set the status to open, in progress and done.
-Know your target and act accordingly.
-You can also allocate a future task to your list.
-
-A simple dashboard is available to view the today and overall task reports.
-Export the table data to Excel Report.
+This tool will carry over the previous days task to current date if the task is not completed. Your task details can be exported to excel.
 
 ## Table of Contents
 
 - [Setup](#Setup)
+- [Features](#Features)
 - [How does it work?](#How-does-it-work)
 - [Available Scripts](#available-scripts)
   - [npm install](#npm-install)
@@ -56,6 +52,24 @@ npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Features
+
+- Create task and set status such as
+    - Open
+    - In progress
+	- Done
+- Can create deadlines for the task and an indicator displays the time remaining to reach the deadline
+- Priorities can be set for each task such as 
+    - High
+    - Medium
+    - Low
+    - None
+- The tasks can be edited or deleted
+- The task details can be exported to excel
+- Tasks can be scheduled for future date
+- View All helps to view all the tasks that have been entered in the application till date
+- A dashboard to display the task status and count
 
 ## How does it work?
 
