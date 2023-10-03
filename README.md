@@ -2,7 +2,7 @@
 
 > Cannot track your tasks. Then you must know **`What To Do`**
 
-**`What To Do`**  is a tool which helps you to track your daily task and its status. 
+**`What To Do`** is a tool which helps you to track your daily task and its status.
 
 This tool will carry over the previous days task to current date if the task is not completed. Your task details can be exported to excel.
 
@@ -56,15 +56,15 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ## Features
 
 - Create task and set status such as
-    - Open
-    - In progress
-	- Done
+  - Open
+  - In progress
+  - Done
 - Can create deadlines for the task and an indicator displays the time remaining to reach the deadline
-- Priorities can be set for each task such as 
-    - High
-    - Medium
-    - Low
-    - None
+- Priorities can be set for each task such as
+  - High
+  - Medium
+  - Low
+  - None
 - The tasks can be edited or deleted
 - The task details can be exported to excel
 - Tasks can be scheduled for future date
@@ -121,7 +121,7 @@ Cleans the node_modules and reinstalls the dependencies for both client ans serv
 
 - React
 - TypeScript
-- SASS with node-sass
+- SASS
 - Kendo UI
 - Bootstrap
 - Lodash
